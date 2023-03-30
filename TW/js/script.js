@@ -33,10 +33,10 @@ function showPopup() {
     window.location.href = 'index.html';
   }
 
-const emailInput = document.querySelector('#email');
-const passwordInput = document.querySelector('#password');
-const emailError = document.querySelector('#emailError');
-const passwordError = document.querySelector('#passwordError');
+const emailInput = document.querySelector('#emailLogin');
+const passwordInput = document.querySelector('#passwordLogin');
+const emailError = document.querySelector('#emailErrorLogin');
+const passwordError = document.querySelector('#passwordErrorLogin');
 const loginBtn = document.querySelector('.buttonLogin');
 const registerBtn = document.querySelector('.buttonRegister')
 

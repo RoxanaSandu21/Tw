@@ -52,15 +52,15 @@
           <div class="centered">
             <h1>Complete the following fields</h1>
             <h3>E-mail address:</h3>
-            <input type="email" id="email" name="email" placeholder="email address" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-            <span class="error" id="emailError"></span>
+            <input type="email" id="emailRegister" name="email" placeholder="email address" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+            <span class="error" id="emailErrorRegister"></span>
             <h3>Password:</h3>
-            <input type="password" id="password" name="password" placeholder="password"  required pattern=".{8,}"><br><br>
+            <input type="password" id="passwordRegister" name="password" placeholder="password"  required pattern=".{8,}"><br><br>
             <h3>Phone number:</h3>
-            <input type="tel" id="tel" name="password" placeholder="password"  required pattern="/(7|8|9)\d{9}/"><br><br>
-            <span class="error" id="passwordError"></span>
+            <input type="tel" id="tel" name="telRegister" placeholder="password"  required pattern="/(7|8|9)\d{9}/"><br><br>
+            <span class="error" id="telErrorRegister"></span>
             <h3>What's this account purpose?</h3>
-            <select id="dropdown" name="dropdown">
+            <select id="dropdownRegister" name="dropdown">
                 <option value="">Please choose an option</option>
                 <option value="option1">I'm a grower</option>
                 <option value="option2">I'm a customer</option>
