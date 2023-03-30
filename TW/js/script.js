@@ -33,13 +33,14 @@ function showPopup() {
     window.location.href = 'index.html';
   }
 
-  const emailInput = document.querySelector('#email');
+const emailInput = document.querySelector('#email');
 const passwordInput = document.querySelector('#password');
 const emailError = document.querySelector('#emailError');
 const passwordError = document.querySelector('#passwordError');
-const submitBtn = document.querySelector('button[type="submit"]');
+const loginBtn = document.querySelector('.buttonLogin');
+const registerBtn = document.querySelector('.buttonRegister')
 
-submitBtn.addEventListener('click', function(event) {
+loginBtn.addEventListener('click', function(event) {
   if (emailInput.validity.valid && passwordInput.validity.valid) {
     // Navigate to index.html if both fields are valid
     showPopup();
