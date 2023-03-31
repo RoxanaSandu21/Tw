@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,7 +31,6 @@
             <div class="fas fa-solid fa-user" id="login"></div>
             </a>
           <div class="fas fa-bars" id="menu-btn"></div>
-        </div>
     </div>
 
     <div class="search-form">
@@ -57,7 +57,7 @@
             <h3>Password:</h3>
             <input type="password" id="passwordRegister" name="password" placeholder="password"  required pattern=".{8,}"><br><br>
             <h3>Phone number:</h3>
-            <input type="tel" id="tel" name="telRegister" placeholder="password"  required pattern="/(7|8|9)\d{9}/"><br><br>
+            <input type="tel" id="tel" name="telRegister" placeholder="password"  required pattern="[+0-9]{7,15}"><br><br>
             <span class="error" id="telErrorRegister"></span>
             <h3>What's this account purpose?</h3>
             <select id="dropdownRegister" name="dropdown">
