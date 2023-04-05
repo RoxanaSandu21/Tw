@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <!-- font awesome cdn link  -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/flower-tool.js"> </script>
+
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="images/logo2.jpg" alt="">
+        </a>
+    
+        <nav class="navbar">
+            <a href="index.html">home</a>
+            <a href="about.html">about</a>
+            <a href="help.html">help</a>
+            <a href="products.html">products</a>
+            <!-- <a href="#review">reviews</a> -->
+        </nav>
+
+        <div class="icons">
+            <div class="fas fa-search" id="search-btn"></div>
+            <div class="fas fa-shopping-cart" id="cart-btn"></div>
+            <a href="login.html">
+                <div class="fas fa-solid fa-user" id="login"></div>
+                </a>
+          <div class="fas fa-bars" id="menu-btn"></div>
+        </div>
+    
+        <div class="search-form">
+            <input type="search" id="search-box" placeholder="search here...">
+            <label for="search-box" class="fas fa-search"></label>
+        </div>
+    </header>
+
+    <h1 class="content-title">Flower status</h1>
+    <div class="overlay" id="overlay" style="display: none;"></div>
+    <div class="div-form" id="div-form" style="display: none;">
+      <form class="form-container">
+        <label class="form-component">First Name</label>
+        <input class="form-input" type="text">
+
+        <label class="form-component">First Name</label>
+        <input class="form-input" type="text">
+
+        <label class="form-component">First Name</label>
+        <input class="form-input" type="text">
+
+        <label class="form-component">First Name</label>
+        <input class="form-input" type="text">
+      </form>
+
+      <button class="status form-component" id="add-submitBtn">SUBMIT</button>
+        <button onclick="closeForm();" class="status form-component" style="background: #8b0000; color: #FFA8A8; box-shadow: rgba(255, 168, 168, .2) 0 -25px 18px -14px inset,rgba(255, 168, 168, .15) 0 1px 2px,rgba(255, 168, 168, .15) 0 2px 4px,rgba(255, 168, 168, .15) 0 4px 8px,rgba(255, 168, 168, .15) 0 8px 16px,rgba(255, 168, 168, .15) 0 16px 32px;" id="cancel-submitBtn">CANCEL</button>
+    </div>
+    <div class="filters" style="display:none;">
+      <input id="searchInput" type="text" placeholder="Search..">
+      <svg id="searchImg" xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18">
+        <rect id="Canvas" opacity="0" width="18" height="18" />
+        <path d="M16.5865,15.107,12.7,11.2215A6.413,6.413,0,1,0,11.2215,12.7l3.886,3.886a1.05,1.05,0,0,0,1.479-1.479ZM3,7.5A4.5,4.5,0,1,1,7.5,12,4.5,4.5,0,0,1,3,7.5Z" />
+      </svg>
+    </div>
+    <div class="informationWrapper" id="informationWrapper">
+      <div class="card" id="add-card" style="cursor: pointer;" onclick="openForm();">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+          <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" />
+          <path d="M14.5,8H10V3.5A.5.5,0,0,0,9.5,3h-1a.5.5,0,0,0-.5.5V8H3.5a.5.5,0,0,0-.5.5v1a.5.5,0,0,0,.5.5H8v4.5a.5.5,0,0,0,.5.5h1a.5.5,0,0,0,.5-.5V10h4.5a.5.5,0,0,0,.5-.5v-1A.5.5,0,0,0,14.5,8Z" />
+        </svg>
+      </div>
+    </div>
+</body>
+
+<template id="card-template">
+  <div class="card">
+    <div>
+      <div class="title">
+        <h2 id="title">Lalele</h2>
+      </div>
+      <hr class="solid">
+    </div>
+      <div class="information">
+        <p>Data: 18.03.2023</p>
+        <p>Soi: Purple Dream</p>
+        <p>Irigare: x zile ramase</p>
+    </div>
+
+    <div class="status" id="statusBtn">COMPLETED</div>
+
+    <div class="options-button" id="options-button" title="Go to Dashboard">
+      <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18">
+        <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" /><path d="M3.662,14.0265a6.635,6.635,0,0,1-1.328-3.897,6.7415,6.7415,0,0,1,6.472-6.759,6.6655,6.6655,0,0,1,5.532,10.656.3625.3625,0,0,0,.05.5l.4655.3875a.3665.3665,0,0,0,.51642-.0442l.00758-.0093a8,8,0,1,0-12.7575,0,.3645.3645,0,0,0,.5117.06229l.0108-.00879.466-.388A.362.362,0,0,0,3.662,14.0265Z" />
+        <path d="M10.4195,11.763a1.4545,1.4545,0,1,1-1.73833-1.0997l.00133-.0003c.374-.0835,2.767-3.1,3.073-2.9225C12.092,7.9355,10.328,11.353,10.4195,11.763Z" />
+        <circle cx="3.909" cy="10.0345" r="0.8" />
+        <circle cx="5.3635" cy="6.398" r="0.8" />
+        <circle cx="12.6365" cy="6.398" r="0.7275" />
+        <circle cx="9" cy="4.9435" r="0.7275" />
+        <circle cx="14.091" cy="10.0345" r="0.7275" />
+      </svg>
+    </div>
+  </div>
+</template>
+</html>
