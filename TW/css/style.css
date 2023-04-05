@@ -821,7 +821,7 @@ input[type=email], select {
     justify-content: center;
     align-items: center;
 
-    font-size: 14px;
+    font-size: 1.6em;
 }
 
 .card {
@@ -865,7 +865,7 @@ input[type=email], select {
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
-    font-size: 10px;
+    font-size: 1.3em;
 }
 
 .status {
@@ -880,7 +880,7 @@ input[type=email], select {
   text-decoration: none;
   transition: all 250ms;
   border: 0;
-  font-size: 12px;
+  font-size: 1.4em;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -972,6 +972,12 @@ label {
     .card .status {
         font-size: 2em;
     }
+
+    .options-button {
+        margin-top: 1%;
+        margin-left: 1%;
+        scale: 1.5;
+    }
 }
 
 @media (min-width:481px) and (max-width:768px) {
@@ -999,6 +1005,10 @@ label {
         font-size: 1.6em;
 
     }
+
+    .options-button {
+        scale: 1.5;
+    }
 }
 
 @media (min-width:769px) and  (max-width:1024px) {
@@ -1023,5 +1033,38 @@ label {
         width: 40%;
         margin-left: 30%;
         margin-right: 30%;
+    }
+
+    .options-button {
+        scale: 1.5;
+    }
+}
+
+@media (min-width:1025px)  {
+    .informationWrapper .card {
+        width: 20vw;
+        height: 20vw;
+    }
+
+    .title {
+        font-size: 2.6em;
+    }
+
+    .information {
+        font-size: 1.8em;
+    }
+
+    .card .status {
+        font-size: 2em;
+    }
+
+    .div-form {
+        width: 40%;
+        margin-left: 30%;
+        margin-right: 30%;
+    }
+
+    .options-button {
+        scale: 1.5;
     }
 }
