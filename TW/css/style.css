@@ -805,12 +805,6 @@ input[type=email], select {
     align-items: center;
 }
 
-#searchImg {
-    display: inline-block;
-    margin-left: -2vw;
-    cursor:text;
-}
-
 .informationWrapper {
     padding: 2vh;
     display: flex;
@@ -852,14 +846,14 @@ input[type=email], select {
     margin: 1%;
 }
 
-@media (max-width:450px){
+@media (max-width:480px){
 
     .informationWrapper {
         flex-direction: column !important;
     }
     .informationWrapper .card {
-        width: 75%;
-        height: 25vh;
+        width: 80vw;
+        height: 80vw;
     }
 
 
@@ -958,4 +952,76 @@ label {
 
 .form-component {
     margin-top: 12px;
+}
+
+@media (max-width:480px) {
+    .div-form {
+        width: 90%;
+        margin-left: 0;
+        margin: 5%;
+    }
+
+    .title {
+        font-size: 2.6em;
+    }
+
+    .information {
+        font-size: 2.2em;
+    }
+
+    .card .status {
+        font-size: 2em;
+    }
+}
+
+@media (min-width:481px) and (max-width:768px) {
+    .div-form {
+        width: 50%;
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+
+    .card {
+        width: 35vw;
+        height: 35vw;
+        margin: 5%;
+    }
+    
+    .title {
+        font-size: 2.4em;
+    }
+
+    .information {
+        font-size: 2em;
+    }
+
+    .card .status {
+        font-size: 1.6em;
+
+    }
+}
+
+@media (min-width:769px) and  (max-width:1024px) {
+    .informationWrapper .card {
+        width: 25vw;
+        height: 25vw;
+    }
+
+    .title {
+        font-size: 2.6em;
+    }
+
+    .information {
+        font-size: 1.8em;
+    }
+
+    .card .status {
+        font-size: 2em;
+    }
+
+    .div-form {
+        width: 40%;
+        margin-left: 30%;
+        margin-right: 30%;
+    }
 }
