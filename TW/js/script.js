@@ -33,21 +33,21 @@ function showPopup() {
     window.location.href = 'index.html';
   }
 
-const emailInput = document.querySelector('#emailLogin');
-const passwordInput = document.querySelector('#passwordLogin');
+// login
+const loginEmailInput = document.querySelector('#emailLogin');
+const loginPasswordInput = document.querySelector('#passwordLogin');
 const emailError = document.querySelector('#emailErrorLogin');
 const passwordError = document.querySelector('#passwordErrorLogin');
 const loginBtn = document.querySelector('.buttonLogin');
-const registerBtn = document.querySelector('.buttonRegister')
 
 loginBtn.addEventListener('click', function(event) {
-  if (emailInput.validity.valid && passwordInput.validity.valid) {
+  if (loginEmailInput.validity.valid && loginPasswordInput.validity.valid) {
     // Navigate to index.html if both fields are valid
     showPopup();
   } else {
     // Show error messages for any invalid fields
-    showError(emailInput, emailError, 'email');
-    showError(passwordInput, passwordError, 'password');
+    showError(loginEmailInput, emailError, 'email');
+    showError(loginPasswordInput, passwordError, 'password');
     // Prevent the form from being submitted
     event.preventDefault();
   }
@@ -65,3 +65,33 @@ function showError(input, error, inputName) {
   }
   error.className = 'error active';
 }
+
+// register 
+const form = document.getElementById('registerForm');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const registerEmailInput = document.getElementById('emailRegister');
+  const registerPasswordInput = document.getElementById('passwordRegister');
+    const registerTelInput = document.getElementById('tel');
+    const registerDropdown = document.getElementById('dropdownRegister');
+
+    let isValid = true;
+
+    if (!registerEmailInput.checkValidity()) {
+      document.getElementById('emailErrorRegister').textContent = registerEmailInput.validationMessage;
+      isValid = false;
+    } else if (!registerPasswordInput.checkValidity()) {
+      document.getElementById('passwordErrorRegister').textContent = registerPasswordInput.validationMessage;
+      isValid = false;
+    } else if (!registerTelInput.checkValidity()) {
+      document.getElementById('telErrorRegister').textContent = registerTelInput.validationMessage;
+      isValid = false;
+    } else if (registerDropdown.value === 'choose_option') {
+      document.getElementById('dropdownErrorRegister').textContent = 'Please choose an option';
+      isValid = false;
+    }else{
+      window.location.href = 'login.html';
+    }
+});
