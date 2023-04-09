@@ -1,8 +1,8 @@
-Echipa:
+# Echipa:
 - Sandu Roxana-Alexandra
 - Mihai Dragos
 - Cerbu Cristi-Madalin
 
-Fisiere:
+# Fisiere:
 - doc.html -> Documentatia proiectului
 - TW -> folder cu proiectul propriu-zis
