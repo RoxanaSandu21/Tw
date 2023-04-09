@@ -890,8 +890,9 @@ input[type=email], select {
   box-shadow: rgba(200,200,200,.35) 0 -25px 18px -14px inset,rgba(200,200,200,.25) 0 1px 2px,rgba(200,200,200,.25) 0 2px 4px,rgba(200,200,200,.25) 0 4px 8px,rgba(200,200,200,.25) 0 8px 16px,rgba(200,200,200,.25) 0 16px 32px;
 }
 
-.options-button {
+.card .options-button {
     position: absolute;
+    top: 1em;
 }
 
 .options-button:hover {
@@ -1068,3 +1069,127 @@ label {
         scale: 1.5;
     }
 }
+
+.control-panel {
+    border: 1px solid #888888;
+    border-radius: 0.5em;
+    padding: 1em;
+    margin: 0 auto;
+    margin-top: 2.5em;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 1em;
+    margin-right: 1em;
+
+    background: linear-gradient(186deg, rgb(187, 136, 85) 25%, rgba(250,235,215,1) 90%);
+}
+
+.control-panel .action-button {
+    width: 4em;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 4px;
+    font-size: 2em;
+    transition: background-color 0.2s ease-in-out;
+
+    margin-left: 1%;
+    cursor: pointer;
+
+}
+
+.control-panel .action-button:hover {
+    background-color: #0069d9;
+}
+
+.control-panel .toolbar {
+    height: 5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.control-panel .cp-info {
+    overflow-x: scroll;
+    height: 30em;
+    border-radius: 0.5em;
+    display: flex;
+    background: antiquewhite;
+    word-wrap: break-word;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-direction: column;
+}
+
+.control-panel .photos {
+    height: 14em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    float: left;
+    overflow-y: scroll
+}
+
+.cp-photo {
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1em;
+    border: 0.1em solid silver;
+    margin-right: 2em;
+  }
+
+  @media (max-width:480px) {
+
+
+    .cp-info .cp-text {
+        font-size: 2em;
+        margin-left: 0.5em;
+        margin-top: 0.5em;
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+    }
+
+  }
+
+  @media (min-width:481px) and (max-width:768px){
+
+    .cp-info .cp-text {
+        font-size: 1.8em;
+        margin-left: 0.5em;
+        margin-top: 0.5em;
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+    }
+    
+  }
+
+  @media (min-width:769px) and (max-width:1024px){
+
+    .cp-info .cp-text {
+        font-size: 2em;
+        margin-left: 0.5em;
+        margin-top: 0.5em;
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+    }
+    
+  }
+
+  @media (min-width:1025px) {
+
+
+    .cp-info .cp-text {
+        font-size: 2.1em;
+        margin-left: 1em;
+        margin-top: 1em;
+        margin-right: 1em;
+        margin-bottom: 1em;
+    }
+
+  }
