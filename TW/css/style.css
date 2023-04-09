@@ -1261,6 +1261,14 @@ label {
     flex-direction: column;
 }
 
+.cp-info .cp-text {
+    font-size: 2em;
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+}
+
 .control-panel .photos {
     height: 14em;
     display: flex;
@@ -1283,49 +1291,31 @@ label {
   @media (max-width:480px) {
 
 
-    .cp-info .cp-text {
-        font-size: 2em;
-        margin-left: 0.5em;
-        margin-top: 0.5em;
-        margin-right: 0.5em;
-        margin-bottom: 0.5em;
-    }
-
   }
 
   @media (min-width:481px) and (max-width:768px){
 
     .cp-info .cp-text {
         font-size: 1.8em;
-        margin-left: 0.5em;
-        margin-top: 0.5em;
-        margin-right: 0.5em;
-        margin-bottom: 0.5em;
     }
     
   }
 
   @media (min-width:769px) and (max-width:1024px){
 
-    .cp-info .cp-text {
-        font-size: 2em;
-        margin-left: 0.5em;
-        margin-top: 0.5em;
-        margin-right: 0.5em;
-        margin-bottom: 0.5em;
+    .control-panel .toolbar {
+        padding-bottom: 0.5em;
     }
-    
+
+    .control-panel .photos{
+        padding-top: 1em;
+    }
   }
 
   @media (min-width:1025px) {
 
-
-    .cp-info .cp-text {
-        font-size: 2.1em;
-        margin-left: 1em;
-        margin-top: 1em;
-        margin-right: 1em;
-        margin-bottom: 1em;
+    .control-panel .cp-info {
+        height: 25em;
     }
 
   }
