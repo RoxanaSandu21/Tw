@@ -546,8 +546,6 @@ input[type=email], select {
 
   .profile{
     min-height: 100vh;
-    display: flex;
-    align-items: center;
     background:url(../images/product-5.jpg) no-repeat;
     background-size: cover;
     background-position: center;
@@ -556,10 +554,20 @@ input[type=email], select {
   .profile label {
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 1%;
   }
   .profile h2{
-    text-align:center; font-size:50px; text-transform:uppercase; color:#222; letter-spacing:1px;
+    font-size:3.5em; text-transform:uppercase; color:#222;padding-top: 1em; letter-spacing:1px;
+    font-family:"Playfair Display", serif; font-weight:400;
+  }
+  .profile h3{
+    float: right;
+    font-size:3em; text-transform:uppercase; color:#222;padding-top: 1em;padding-right: 5em; letter-spacing:1px;
+    font-family:"Playfair Display", serif; font-weight:400;
+  }
+  .profile h4{
+    float: right;
+    font-size:3em; text-transform:uppercase; color:#222;padding-top: 1em; letter-spacing:1px;
     font-family:"Playfair Display", serif; font-weight:400;
   }
   
@@ -567,9 +575,9 @@ input[type=email], select {
   .profile input[type="email"],
   .profile input[type="date"],
   .profile textarea {
-    border: 2px solid #ccc;
-    padding: 10px;
-    font-size: 16px;
+    border:0.1em solid #ccc;
+    padding: 1em;
+    font-size: 1.3em;
     border-radius: 5px;
     width: 50%;
     margin-bottom: 20px;
@@ -589,13 +597,13 @@ input[type=email], select {
     transition: all .5s ease;
     color: #fff;
     height: 10%;
-    width: 10%;
+    width: 5em;
     border: 3px solid white;
     font-family:'Montserrat', sans-serif;
     text-transform: uppercase;
     text-align: center;
     line-height: 1;
-    font-size: 17px;
+    font-size: 2em;
     background-color : transparent;
     padding: 10px;
     outline: none;
@@ -607,17 +615,17 @@ input[type=email], select {
     }
 
     .buttonFlowerStatus{
-        float: right;
+        float:right;
         transition: all .5s ease;
         color: #1cc7ea;
-        height: 10%;
-        width: 20%;
+        height: 3em;
+        width: 15em;
         border: 3px solid #1cc7ea;
         font-family:'Montserrat', sans-serif;
         text-transform: uppercase;
         text-align: center;
         line-height: 1;
-        font-size: 17px;
+        font-size: 1.5em;
         background-color : transparent;
         padding: 10px;
         outline: none;
@@ -627,6 +635,29 @@ input[type=email], select {
         color: #fff;
         background-color: #1cc7ea;
     }
+
+    .buttonLogOut{
+        float:right;
+        transition: all .5s ease;
+        color: red;
+        height: 3em;
+        width: 10em;
+        border: 3px solid red;
+        font-family:'Montserrat', sans-serif;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 1;
+        font-size: 1.5em;
+        background-color : transparent;
+        padding: 10px;
+        outline: none;
+        border-radius: 4px;
+    }
+    .buttonLogOut:hover {
+        color: #fff;
+        background-color: red;
+    }
+
 
 
   /* profile */
