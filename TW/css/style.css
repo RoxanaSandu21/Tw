@@ -546,8 +546,11 @@ input[type=email], select {
 
   .profile{
     min-height: 100vh;
+    display: flex;
+    align-items: center;
     background:url(../images/product-5.jpg) no-repeat;
     background-size: cover;
+    background-position: center;
   }
 
   .profile label {
@@ -604,6 +607,7 @@ input[type=email], select {
     }
 
     .buttonFlowerStatus{
+        float: right;
         transition: all .5s ease;
         color: #1cc7ea;
         height: 10%;
