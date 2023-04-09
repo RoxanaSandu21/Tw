@@ -30,4 +30,5 @@ window.onscroll = () =>{
 
 function showPopup() {
     alert("You succefully signed in!");
+    window.location.href='profile.html';
   }

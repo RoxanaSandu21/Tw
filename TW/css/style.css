@@ -555,7 +555,7 @@ input[type=email], select {
     font-weight: bold;
     margin-bottom: 5px;
   }
-  .profile label[for="editProfile"]{
+  .profile h2{
     text-align:center; font-size:50px; text-transform:uppercase; color:#222; letter-spacing:1px;
     font-family:"Playfair Display", serif; font-weight:400;
   }
@@ -585,6 +585,7 @@ input[type=email], select {
   .buttonEdit {
     transition: all .5s ease;
     color: #fff;
+    height: 10%;
     width: 10%;
     border: 3px solid white;
     font-family:'Montserrat', sans-serif;
@@ -603,10 +604,10 @@ input[type=email], select {
     }
 
     .buttonFlowerStatus{
-        align-items: center ;
         transition: all .5s ease;
         color: #1cc7ea;
-        width: 10%;
+        height: 10%;
+        width: 20%;
         border: 3px solid #1cc7ea;
         font-family:'Montserrat', sans-serif;
         text-transform: uppercase;
