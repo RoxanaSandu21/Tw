@@ -33,65 +33,26 @@ function showPopup() {
     window.location.href = 'index.html';
   }
 
-// login
-const loginEmailInput = document.querySelector('#emailLogin');
-const loginPasswordInput = document.querySelector('#passwordLogin');
-const emailError = document.querySelector('#emailErrorLogin');
-const passwordError = document.querySelector('#passwordErrorLogin');
-const loginBtn = document.querySelector('.buttonLogin');
-
-loginBtn.addEventListener('click', function(event) {
-  if (loginEmailInput.validity.valid && loginPasswordInput.validity.valid) {
-    // Navigate to index.html if both fields are valid
-    showPopup();
-  } else {
-    // Show error messages for any invalid fields
-    showError(loginEmailInput, emailError, 'email');
-    showError(loginPasswordInput, passwordError, 'password');
-    // Prevent the form from being submitted
-    event.preventDefault();
+function openPage(pageName, elmnt, color) {
+  // Hide all elements with class="tabcontent" by default */
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
   }
-});
 
-function showError(input, error, inputName) {
-  if (input.validity.valueMissing) {
-    error.textContent = 'Please fill out this field.';
-  } else if (input.validity.typeMismatch) {
-    error.textContent = 'Please enter a valid email address.';
-  } else if (input.validity.patternMismatch) {
-    if (inputName === 'password') {
-      error.textContent = 'Please enter a password with at least 8 characters.';
-    }
+  // Remove the background color of all tablinks/buttons
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
   }
-  error.className = 'error active';
+
+  // Show the specific tab content
+  document.getElementById(pageName).style.display = "block";
+
+  // Add the specific color to the button used to open the tab content
+  elmnt.style.backgroundColor = color;
 }
 
-// register 
-const form = document.getElementById('registerForm');
-
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  const registerEmailInput = document.getElementById('emailRegister');
-  const registerPasswordInput = document.getElementById('passwordRegister');
-    const registerTelInput = document.getElementById('tel');
-    const registerDropdown = document.getElementById('dropdownRegister');
-
-    let isValid = true;
-
-    if (!registerEmailInput.checkValidity()) {
-      document.getElementById('emailErrorRegister').textContent = registerEmailInput.validationMessage;
-      isValid = false;
-    } else if (!registerPasswordInput.checkValidity()) {
-      document.getElementById('passwordErrorRegister').textContent = registerPasswordInput.validationMessage;
-      isValid = false;
-    } else if (!registerTelInput.checkValidity()) {
-      document.getElementById('telErrorRegister').textContent = registerTelInput.validationMessage;
-      isValid = false;
-    } else if (registerDropdown.value === 'choose_option') {
-      document.getElementById('dropdownErrorRegister').textContent = 'Please choose an option';
-      isValid = false;
-    }else{
-      window.location.href = 'login.html';
-    }
-});
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();

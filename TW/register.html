@@ -5,53 +5,75 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+
+         <!-- font awesome cdn link  -->
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <!-- header section starts  -->
+    <header class="header">
 
-<header class="header">
-
-    <a href="#" class="logo">
-        <img src="images/logo2.jpg" alt="">
-    </a>
-
-    <nav class="navbar">
-        <a href="index.html">home</a>
-        <a href="about.html">about</a>
-        <a href="help.html">help</a>
-        <a href="products.html">products</a>
-        <!-- <a href="#review">reviews</a> -->
-    </nav>
-
-    <div class="icons">
-        <div class="fas fa-search" id="search-btn"></div>
-        <div class="fas fa-shopping-cart" id="cart-btn"></div>
-        <a href="login.html">
-            <div class="fas fa-solid fa-user" id="login"></div>
-            </a>
-	  <div class="fas fa-bars" id="menu-btn"></div>
-    </div>
-
-    <div class="search-form">
-        <input type="search" id="search-box" placeholder="search here...">
-        <label for="search-box" class="fas fa-search"></label>
-    </div>
-
-</header>
-
+        <a href="index.html" class="logo">
+            <img src="images/logo2.jpg" alt="">
+        </a>
+    
+        <nav class="navbar">
+            <a href="index.html">home</a>
+            <a href="about.html">about</a>
+            <a href="help.html">help</a>
+            <a href="products.html">products</a>
+        </nav>
+    
+        <div class="icons">
+            <div class="fas fa-search" id="search-btn"></div>
+            <div class="fas fa-shopping-cart" id="cart-btn"></div>
+            <a href="login.html">
+                <div class="fas fa-solid fa-user" id="login"></div>
+                </a>
+          <div class="fas fa-bars" id="menu-btn"></div>
+        </div>
+    
+        <div class="search-form">
+            <input type="search" id="search-box" placeholder="search here...">
+            <label for="search-box" class="fas fa-search"></label>
+        </div>
+    
+        <div class="cart-items-container">
+            <div class="cart-item">
+                <span class="fas fa-times"></span>
+                <img src="images/product-1.jpg" alt="">
+                <div class="content">
+                    <h3>cart item 01</h3>
+                    <div class="price">$15.99</div>
+                </div>
+            </div>
+            <div class="cart-item">
+                <span class="fas fa-times"></span>
+                <img src="images/product-2.png" alt="">
+                <div class="content">
+                    <h3>cart item 02</h3>
+                    <div class="price">$15.99</div>
+                </div>
+            </div>
+            
+            <a href="checkOut.html" class="btn">checkout now</a>
+        </div>
+    
+    </header>
+    
+    
 <!-- header section ends -->
 
 
 <section class="register" id="register">
 
-    <h1 class="heading"> <span>register</span></h1>
+    <h1 class="heading"> <span></span></h1>
 
     <div class="container">
-        <img src="images/home-img1.jpg" alt="Snow" style="width:100%; height: 80%;">
         <div class="centered">
           <h1>Complete the following fields</h1>
-          <form id="registerForm">
             <h3>E-mail address:</h3>
             <input type="email" id="emailRegister" name="email" placeholder="email address" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
             <span class="error" id="emailErrorRegister"></span>
@@ -59,7 +81,7 @@
             <input type="password" id="passwordRegister" name="password" placeholder="password"  required pattern=".{8,}">
             <span class="error" id="passwordErrorRegister"></span>
             <h3>Phone number:</h3>
-            <input type="tel" id="tel" name="telRegister" placeholder="phone_number"  required pattern="[+0-9]{7,15}">
+            <input type="tel" id="tel" name="telRegister" placeholder="phone number"  required pattern="[+0-9]{7,15}">
             <span class="error" id="telErrorRegister"></span>
             <h3>What's this account purpose?</h3>
             <select id="dropdownRegister" name="dropdown">
@@ -68,14 +90,13 @@
               <option value="option2">I'm a customer</option>
             </select>
             <span class="error" id="dropdownErrorRegister"></span>
-            <button type="submit" class="buttonRegister"><span>Register</span></button>
-          </form>
+            <a href ="login.html">
+            <button class="buttonRegister"><span>Register</span></button>
+            </a>
         </div>
       </div>
 
 </section>
-
-
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>

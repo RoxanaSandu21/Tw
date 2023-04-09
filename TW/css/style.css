@@ -367,7 +367,49 @@ section{
     font-size: 1.5rem;
 }
 
+/* Set height of body and the document to 100% to enable "full page tabs" */
+  
+  /* Style tab links */
+  .tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding-top: 80px;
+    font-size: 17px;
+    width: 25%;
+  }
+  
+  .tablink:hover {
+    background-color: #777;
+  }
+  
+  /* Style the tab content (and add height:100% for full page content) */
+  .tabcontent {
+    color: white;
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+  }
+  
+  #Home {background-color: red;}
+  #News {background-color: green;}
+  #Contact {background-color: blue;}
+  #About {background-color: orange;}
+
+
 /* login */
+.login{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background:url(../images/about-img.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
 .centered {
     position: absolute;
     top: 60%;
@@ -453,6 +495,14 @@ input[type=email], select {
   /* login */
 
   /*register*/
+  .register{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background:url(../images/home-img1.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
   .buttonRegister {
     width: 100%;
     background-color: #4CAF50;
@@ -491,6 +541,90 @@ input[type=email], select {
     right: 0;
   }
   /*register*/
+
+  /* profile */
+
+  .profile{
+    min-height: 100vh;
+    background:url(../images/product-5.jpg) no-repeat;
+    background-size: cover;
+  }
+
+  .profile label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .profile label[for="editProfile"]{
+    text-align:center; font-size:50px; text-transform:uppercase; color:#222; letter-spacing:1px;
+    font-family:"Playfair Display", serif; font-weight:400;
+  }
+  
+  .profile input[type="text"],
+  .profile input[type="email"],
+  .profile input[type="date"],
+  .profile textarea {
+    border: 2px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 50%;
+    margin-bottom: 20px;
+  }
+  
+  .profile input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .buttonEdit {
+    transition: all .5s ease;
+    color: #fff;
+    width: 10%;
+    border: 3px solid white;
+    font-family:'Montserrat', sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1;
+    font-size: 17px;
+    background-color : transparent;
+    padding: 10px;
+    outline: none;
+    border-radius: 4px;
+    }
+    .buttonEdit:hover {
+        color: #001F3F;
+        background-color: #fff;
+    }
+
+    .buttonFlowerStatus{
+        align-items: center ;
+        transition: all .5s ease;
+        color: #1cc7ea;
+        width: 10%;
+        border: 3px solid #1cc7ea;
+        font-family:'Montserrat', sans-serif;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 1;
+        font-size: 17px;
+        background-color : transparent;
+        padding: 10px;
+        outline: none;
+        border-radius: 4px;
+    }
+    .buttonFlowerStatus:hover {
+        color: #fff;
+        background-color: #1cc7ea;
+    }
+
+
+  /* profile */
 
 .review .box-container{
     display: grid;
