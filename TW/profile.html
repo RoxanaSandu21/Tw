@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Profile</title>
 
-         <!-- font awesome cdn link  -->
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+     <!-- font awesome cdn link  -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <!-- header section starts  -->
+
     <header class="header">
 
         <a href="index.html" class="logo">
@@ -62,40 +63,30 @@
         </div>
     
     </header>
-    
-    
+
 <!-- header section ends -->
 
+<section class="profile" id="profile" style="padding-top: 10%">
+    <h2>Edit your profile</h2>
 
-<section class="register" id="register">
+  <label for="firstName">First Name: <br><input type="text" id="firstName" name="firstName" placeholder="Cedrik"><br></label>
 
-    <div class="container">
-        <div class="centered">
-          <h1>Complete the following fields</h1>
-            <h3>E-mail address:</h3>
-            <input type="email" id="emailRegister" name="email" placeholder="email address" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-            <span class="error" id="emailErrorRegister"></span>
-            <h3>Password:</h3>
-            <input type="password" id="passwordRegister" name="password" placeholder="password"  required pattern=".{8,}">
-            <span class="error" id="passwordErrorRegister"></span>
-            <h3>Phone number:</h3>
-            <input type="tel" id="tel" name="telRegister" placeholder="phone number"  required pattern="[+0-9]{7,15}">
-            <span class="error" id="telErrorRegister"></span>
-            <h3>What's this account purpose?</h3>
-            <select id="dropdownRegister" name="dropdown">
-              <option value="choose_option">Please choose an option</option>
-              <option value="option1">I'm a grower</option>
-              <option value="option2">I'm a customer</option>
-            </select>
-            <span class="error" id="dropdownErrorRegister"></span>
-            <button class="buttonRegister" onclick="window.location.href='login.html'"><span>Register</span></button>
-        </div>
-      </div>
+  <label for="lastName" >Last Name: <br><input type="text" id="lastName" name="lastName" placeholder="The Fat"><br></label>
 
+  <label for="email">Email: <br><input type="email" id="email" name="email" placeholder="cedrikfatguy@hotchick.com"><br></label>
+
+  <label for="city" >City: <br><input type="text" id="city" name="city" placeholder="Iasi"><br></label>
+
+  <label for="accountPurpose">Account Purpose: <br><input type="text" id="accountPurpose" name="accountPurpose" placeholder="Grower"><br></label>
+
+  <label for="accountCreatedOn">Account Created On: 05/04/2023</label>
+  <button id="accountCreatedOn" class="buttonEdit" onclick="window.location.href='profile.html'"><span>Edit</span></button>
+    <button id="statusButton" class="buttonFlowerStatus" onclick="window.location.href='flowerTool.html'"><span>See your flower status</span></button>
+  
 </section>
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
-
+    
 </body>
 </html>
