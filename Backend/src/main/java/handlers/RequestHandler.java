@@ -1,68 +1,112 @@
 package handlers;
 
+import api.AuthorizationApi;
 import api.FlowerApi;
+import authorization.AuthenticationRequest;
+import authorization.AuthorizationController;
+import authorization.RegisterRequest;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import controllers.FlowerController;
+import exceptions.AuthenticationException;
 import exceptions.NotFoundException;
-import pojos.FlowerResponse;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import models.Flower;
+import utils.KeyGenerator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+
 public class RequestHandler implements HttpHandler {
+    private static final String SECRET_KEY = KeyGenerator.getSecretKey();
     private final FlowerApi flowerApi;
+    private final AuthorizationApi authorizationApi;
 
     public RequestHandler() {
-        // Create an instance of the API implementation
         flowerApi = new FlowerController();
+        authorizationApi = new AuthorizationController();
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        // Parse the request and extract the method, path, and body
+
+        String authorizationHeader = exchange.getRequestHeaders().getFirst("Authorization");
         String method = exchange.getRequestMethod();
         String path = exchange.getRequestURI().getPath();
         String body = new BufferedReader(new InputStreamReader(exchange.getRequestBody()))
                 .lines().collect(Collectors.joining("\n"));
-
-        // Process the request based on the method and path
         String response;
         int statusCode;
-        try {
-            if (method.equals("GET") && path.matches("/api/flowers/\\d+")) {
-                int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
-                FlowerResponse flower = flowerApi.getFlower(flowerId);
-                //TODO: see what about this response :?
-                response = toJson(flower);
+
+        //Public endpoints section, don't need authorization
+        if (method.equals("POST") && path.matches("/api/register")) {
+            RegisterRequest registerRequest = fromJson(body, RegisterRequest.class);
+            response = String.valueOf(authorizationApi.register(registerRequest));
+            statusCode = 201;
+        } else if (method.equals("POST") && path.matches("/api/authenticate")) {
+            try {
+                AuthenticationRequest authenticationRequest = fromJson(body, AuthenticationRequest.class);
+                response = authorizationApi.authenticate(authenticationRequest).getTokenJwt();
                 statusCode = 200;
-            } else if (method.equals("POST") && path.equals("/api/flowers")) {
-                FlowerResponse flower = fromJson(body, FlowerResponse.class);
-                response = String.valueOf(flowerApi.createFlower(flower));
-                statusCode = 201;
-            } else if (method.equals("PUT") && path.matches("/api/flowers/\\d+")) {
-                int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
-                FlowerResponse flower = fromJson(body, FlowerResponse.class);
-                response = String.valueOf(flowerApi.updateFlower(flowerId, flower));
-                statusCode = 200;
-            } else if (method.equals("DELETE") && path.matches("/api/flowers/\\d+")) {
-                int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
-                response = String.valueOf(flowerApi.deleteFlower(flowerId));
-                statusCode = 200;
-            } else {
-                response = "Endpoint not found";
+            } catch (AuthenticationException e) {
+                response = e.getMessage();
                 statusCode = 404;
             }
-        } catch (NotFoundException e) {
-            response = e.getMessage();
-            statusCode = 404;
-        } catch (Exception e) {
-            response = "Internal Server Error";
-            statusCode = 500;
+        } else {
+            //Here is the part where authorization by jwt is made
+            //removed "Bearer " from jwt
+            if (authorizationHeader != null && isValidToken(authorizationHeader.substring(7))) {
+
+                try {
+                    if (method.equals("GET") && path.matches("/api/flowers/\\d+")) {
+                        int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
+                        Flower flower = flowerApi.getFlower(flowerId);
+                        //TODO: see what about this response :?
+                        response = toJson(flower);
+                        statusCode = 200;
+                    } else if(method.equals("GET") && path.matches("/api/flowers/all")){
+                        List<Flower> flowers = flowerApi.getFlowers();
+                        response = toJson(flowers);
+                        statusCode = 200;
+                    }else if (method.equals("POST") && path.equals("/api/flowers")) {
+                        Flower flower = fromJson(body, Flower.class);
+                        response = String.valueOf(flowerApi.createFlower(flower));
+                        statusCode = 201;
+                    } else if (method.equals("PUT") && path.matches("/api/flowers/\\d+")) {
+                        int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
+                        Flower flower = fromJson(body, Flower.class);
+                        response = String.valueOf(flowerApi.updateFlower(flowerId, flower));
+                        statusCode = 200;
+                    } else if (method.equals("DELETE") && path.matches("/api/flowers/\\d+")) {
+                        int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
+                        response = String.valueOf(flowerApi.deleteFlower(flowerId));
+                        statusCode = 200;
+                    } else {
+                        response = "Endpoint not found";
+                        statusCode = 404;
+                    }
+                } catch (NotFoundException e) {
+                    response = e.getMessage();
+                    statusCode = 404;
+                } catch (Exception e) {
+                    response = "Internal Server Error";
+                    statusCode = 500;
+                }
+            } else {
+                response = "Unauthorized";
+                statusCode = 401;
+            }
         }
 
         // Send the response
@@ -74,16 +118,35 @@ public class RequestHandler implements HttpHandler {
     }
 
     private <T> T fromJson(String json, Class<T> clazz) {
-        // Implement JSON deserialization logic
-        // Using a library like Jackson or Gson is recommended for real-world scenarios
-        // This is a basic example using Java's built-in JSON processing (requires Java 11+)
         return new Gson().fromJson(json, clazz);
     }
 
     private String toJson(Object object) {
-        // Implement JSON serialization logic
-        // Using a library like Jackson or Gson is recommended for real-world scenarios
-        // This is a basic example using Java's built-in JSON processing (requires Java 11+)
         return new Gson().toJson(object);
     }
+
+    //TODO: implement this logic
+    private boolean isValidToken(String token) {
+
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(SECRET_KEY)
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            // Check if the token has expired
+            Date expirationDate = claims.getExpiration();
+            Date now = new Date();
+            if (expirationDate.before(now)) {
+                return false;
+            }
+            // Additional validation checks if needed
+
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+
+
 }

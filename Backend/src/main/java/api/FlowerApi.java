@@ -4,21 +4,26 @@ import annotations.*;
 import exceptions.NotFoundException;
 import handlers.Response;
 import models.Flower;
-import pojos.FlowerResponse;
+
+import java.util.List;
 
 public interface FlowerApi {
 
     @GET
+    @Path("/flowers/all")
+    List<Flower> getFlowers() throws NotFoundException;
+
+    @GET
     @Path("/flowers/{id}")
-    FlowerResponse getFlower(@PathParam("id") int id) throws NotFoundException;
+    Flower getFlower(@PathParam("id") int id) throws NotFoundException;
 
     @POST
     @Path("/flowers")
-    Response createFlower(FlowerResponse flower);
+    Response createFlower(Flower flower);
 
     @PUT
     @Path("/flowers/{id}")
-    Response updateFlower(@PathParam("id") int id, FlowerResponse flower) throws NotFoundException;
+    Response updateFlower(@PathParam("id") int id, Flower flower) throws NotFoundException;
 
     @DELETE
     @Path("/flowers/{id}")

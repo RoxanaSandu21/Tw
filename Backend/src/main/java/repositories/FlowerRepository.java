@@ -1,10 +1,10 @@
 package repositories;
 
-import pojos.FlowerResponse;
+import models.Flower;
 
 public interface FlowerRepository {
 
-    public static FlowerResponse findFlowerById(int id) {
+    public static Flower findFlowerById(int id) {
         return null;
     }
 }

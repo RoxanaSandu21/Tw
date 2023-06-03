@@ -4,15 +4,21 @@ import api.FlowerApi;
 import exceptions.NotFoundException;
 import handlers.Response;
 import models.Flower;
-import pojos.FlowerResponse;
-import repositories.FlowerRepository;
 import services.FlowerService;
+
+import java.util.List;
 
 public class FlowerController implements FlowerApi {
 
-    public FlowerResponse getFlower(int id) throws NotFoundException {
+    @Override
+    public List<Flower> getFlowers() throws NotFoundException {
+        return FlowerService.getAllFlowers();
+    }
+
+    @Override
+    public Flower getFlower(int id) throws NotFoundException {
         // Retrieve flower from the database based on the provided ID
-        FlowerResponse flower = FlowerService.findFlowerById(id);
+        Flower flower = FlowerService.findFlowerById(id);
         if (flower == null) {
             //TODO: maybe here should be a log message and a message to user
             throw new NotFoundException("Flower not found");
@@ -20,15 +26,17 @@ public class FlowerController implements FlowerApi {
         return flower;
     }
 
-    public Response createFlower(FlowerResponse flower) {
+    @Override
+    public Response createFlower(Flower flower) {
         // Save the new flower in the database
         FlowerService.saveFlower(flower);
         return Response.created();
     }
 
-    public Response updateFlower(int id, FlowerResponse flower) throws NotFoundException {
+    @Override
+    public Response updateFlower(int id, Flower flower) throws NotFoundException {
         // Retrieve the existing flower from the database based on the provided ID
-        FlowerResponse existingFlower = FlowerService.findFlowerById(id);
+        Flower existingFlower = FlowerService.findFlowerById(id);
         if (existingFlower == null) {
             throw new NotFoundException("Flower not found");
         }
@@ -41,9 +49,10 @@ public class FlowerController implements FlowerApi {
         return Response.ok();
     }
 
+    @Override
     public Response deleteFlower(int id) throws NotFoundException {
         // Retrieve the flower from the database based on the provided ID
-        FlowerResponse flower = FlowerService.findFlowerById(id);
+        Flower flower = FlowerService.findFlowerById(id);
         if (flower == null) {
             throw new NotFoundException("Flower not found");
         }
