@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>LogIn</title>
 
-         <!-- font awesome cdn link  -->
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <!-- font awesome cdn link  -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -20,10 +20,10 @@
         </a>
     
         <nav class="navbar">
-            <a href="index.html">home</a>
-            <a href="about.html">about</a>
-            <a href="help.html">help</a>
-            <a href="products.html">products</a>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="help.html">Help</a>
+            <a href="products.html">Products</a>
         </nav>
     
         <div class="icons">
@@ -58,44 +58,38 @@
                 </div>
             </div>
             
-            <a href="checkOut.html" class="btn">checkout now</a>
+            <a href="checkOut.html" class="btn">Checkout now</a>
         </div>
     
     </header>
     
-    
 <!-- header section ends -->
 
 
-<section class="register" id="register">
+<section class="login" id="loginPage">
 
     <div class="container">
         <div class="centered">
-          <h1>Complete the following fields</h1>
+            <form onsubmit="return validateLogin();" action="profile.html">
+            <h1>Sign in with your credentials</h1>
             <h3>E-mail address:</h3>
-            <input type="email" id="emailRegister" name="email" placeholder="email address" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-            <span class="error" id="emailErrorRegister"></span>
+            <input type="email" id="emailLogin" name="email" placeholder="Email address">
+            <span class="error" id="emailErrorLogin"></span>
             <h3>Password:</h3>
-            <input type="password" id="passwordRegister" name="password" placeholder="password"  required pattern=".{8,}">
-            <span class="error" id="passwordErrorRegister"></span>
-            <h3>Phone number:</h3>
-            <input type="tel" id="tel" name="telRegister" placeholder="phone number"  required pattern="[+0-9]{7,15}">
-            <span class="error" id="telErrorRegister"></span>
-            <h3>What's this account purpose?</h3>
-            <select id="dropdownRegister" name="dropdown">
-              <option value="choose_option">Please choose an option</option>
-              <option value="option1">I'm a grower</option>
-              <option value="option2">I'm a customer</option>
-            </select>
-            <span class="error" id="dropdownErrorRegister"></span>
-            <button class="buttonRegister" onclick="window.location.href='login.html'"><span>Register</span></button>
+            <input type="password" id="passwordLogin" name="password" placeholder="Password"><br><br>
+            <span class="error" id="passwordErrorLogin"></span>
+            <button class="buttonLogin" id="submitButton" type="submit"><span>Sign In</span></button>
+            <a href="register.html">
+              <h3>Don't have an account? Register now!</h3>
+            </a>
+        </form>
         </div>
       </div>
 
 </section>
 
 <!-- custom js file link  -->
-<script src="js/script.js"></script>
+<script src="js/login.js"></script>
 
 </body>
 </html>

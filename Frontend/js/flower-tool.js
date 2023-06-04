@@ -60,6 +60,38 @@ var filterSearch = function(ev) {
 
 setTimeout(() => { generateCards(32); }, 10);
 
+function checkValid(){
+    const dropDownOption = document.getElementById("dropDownFlower");
+    const kind = document.getElementById("kind");
+    const date = document.getElementById("date");
+    let valid = true;
+    if(dropDownOption.value == "choose_option"){
+        document.getElementById("dropDownErrorFlower").textContent = ("Please choose an option");
+        valid = false;
+    }
+    else{
+        document.getElementById("dropDownErrorFlower").textContent = ("");
+    }
+    if(kind.value == null || kind.value == ""){
+        document.getElementById("kindError").textContent = ("Please enter a name of a kind");
+        valid = false;
+    }
+    else{
+        document.getElementById("kindError").textContent = ("");
+    }
+    if(isNaN(Date.parse(date.value))){
+        document.getElementById("dateError").textContent = ("Please select a valid date");
+        valid = false;
+    }
+    else{
+        document.getElementById("dateError").textContent = ("");
+    }
+    if(valid){
+        closeForm();
+    }
+}
+
+
 var closeForm = function () {
     document.getElementById("overlay").style.display = 'none';
     document.getElementById("div-form").style.display = 'none';

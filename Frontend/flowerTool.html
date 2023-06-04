@@ -67,24 +67,37 @@
       </div>
     </header>
 
-    <h1 class="content-title">Flower status</h1>
+    <h1 class="content-title">Add a flower</h1>
     <div class="overlay" id="overlay" style="display: none;"></div>
     <div class="div-form" id="div-form" style="display: none;">
       <form class="form-container">
-        <label class="form-component">Info1</label>
-        <input class="form-input" type="text">
+        <label class="form-component">Flower name</label>
+        <select id="dropDownFlower" name="dropdown">
+          <option value="choose_option">Please choose an option</option>
+          <option value="optionZambila">Zambila</option>
+          <option value="optionLalea">Lalea</option>
+          <option value="optionPanseluta">Panseluta</option>
+          <option value="optionBrandusa">Brandusa</option>
+          <option value="optionNarcisa">Narcisa</option>
+          <option value="optionVioleta">Violeta</option>
+          <option value="optionOrdihee">Orhidee</option>
+          <option value="optionAzalee">Azalee</option>
+          <option value="optionCrizantema">Crizantema</option>
+          <option value="optionGhiocel">Ghiocel</option>
+        </select>
+        <span class="error" id="dropDownErrorFlower"></span>
 
-        <label class="form-component">Info2</label>
-        <input class="form-input" type="text">
+        <label class="form-component">Kind</label>
+        <input id = "kind" type="kind">
+        <span class="error" id="kindError"></span>
 
-        <label class="form-component">Info3</label>
-        <input class="form-input" type="text">
+        <label class="form-component">Planting date</label>
+        <input id = "date" type="date">
+        <span class="error" id="dateError"></span>
 
-        <label class="form-component">Info4</label>
-        <input class="form-input" type="text">
       </form>
 
-      <button class="status form-component" id="add-submitBtn">SUBMIT</button>
+      <button class="status form-component" onclick="checkValid()" id="add-submitBtn">SUBMIT</button>
         <button onclick="closeForm();" class="status form-component" style="background: #8b0000; color: #FFA8A8; box-shadow: rgba(255, 168, 168, .2) 0 -25px 18px -14px inset,rgba(255, 168, 168, .15) 0 1px 2px,rgba(255, 168, 168, .15) 0 2px 4px,rgba(255, 168, 168, .15) 0 4px 8px,rgba(255, 168, 168, .15) 0 8px 16px,rgba(255, 168, 168, .15) 0 16px 32px;" id="cancel-submitBtn">CANCEL</button>
     </div>
     <div class="filters" style="display:none;">
@@ -136,11 +149,9 @@
         </a>
       </div>
 
-
-
   </div>
 </template>
 
-<script src="js/script.js"></script>
+<script src="js/flower-tool.js"></script>
 </body>
 </html>
