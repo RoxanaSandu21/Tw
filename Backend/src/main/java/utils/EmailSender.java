@@ -15,15 +15,19 @@ import javax.mail.internet.MimeMessage;
 public class EmailSender {
 
     //TODO: this one should be also replaced
-    private static final String senderEmail = "your-email@example.com";
+    private static final String senderEmail = "wtehnologii@gmail.com";
 
     public static void sendEmail(String recipientEmail, Flower flower) throws EmailSenderException {
+        //dummy data to test email
+        Flower flower1 = new Flower();
+        flower1.setName("Test email");
+
         String smtpHost = "smtp.gmail.com";
         int smtpPort = 587;
 
         //TODO: these should be replaced
-        String username = "your-username";
-        String password = "your-password";
+        String username = "wtehnologii@gmail.com";
+        String password = "sravkgspqorcxbuj";
 
         Properties props = new Properties();
         props.put("mail.smtp.host", smtpHost);
@@ -44,7 +48,7 @@ public class EmailSender {
             message.setFrom(new InternetAddress(senderEmail));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
             message.setSubject("Flower Tool Notify");
-            message.setText("You are receiving this email since the flower " + flower.getName() + " is now available!");
+            message.setText("You are receiving this email since the flower " + flower1.getName() + " is now available!");
 
             Transport.send(message);
 
