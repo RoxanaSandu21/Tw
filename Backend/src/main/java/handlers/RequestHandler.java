@@ -2,6 +2,7 @@ package handlers;
 
 import api.AuthorizationApi;
 import api.FlowerApi;
+import api.UserApi;
 import authorization.AuthenticationRequest;
 import authorization.AuthorizationController;
 import authorization.RegisterRequest;
@@ -9,12 +10,15 @@ import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import controllers.FlowerController;
+import controllers.UserController;
 import exceptions.AuthenticationException;
 import exceptions.NotFoundException;
+import exceptions.RegisterConflictException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import models.Flower;
+import models.User;
 import utils.KeyGenerator;
 
 import java.io.BufferedReader;
@@ -33,13 +37,30 @@ public class RequestHandler implements HttpHandler {
     private final FlowerApi flowerApi;
     private final AuthorizationApi authorizationApi;
 
+    private final UserApi userApi;
+
     public RequestHandler() {
         flowerApi = new FlowerController();
         authorizationApi = new AuthorizationController();
+        userApi = new UserController();
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+
+        if (exchange.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
+            // Set CORS headers for preflight request
+            exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+            exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+            exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept");
+            exchange.sendResponseHeaders(200, -1); // Send 200 status for preflight request
+            return;
+        }
+
+        // Set CORS headers for actual request
+        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
 
         String authorizationHeader = exchange.getRequestHeaders().getFirst("Authorization");
         String method = exchange.getRequestMethod();
@@ -51,9 +72,14 @@ public class RequestHandler implements HttpHandler {
 
         //Public endpoints section, don't need authorization
         if (method.equals("POST") && path.matches("/api/register")) {
-            RegisterRequest registerRequest = fromJson(body, RegisterRequest.class);
-            response = String.valueOf(authorizationApi.register(registerRequest));
-            statusCode = 201;
+            try {
+                RegisterRequest registerRequest = fromJson(body, RegisterRequest.class);
+                response = String.valueOf(authorizationApi.register(registerRequest));
+                statusCode = 201;
+            } catch (RegisterConflictException e) {
+                response = e.getMessage();
+                statusCode = 409;
+            }
         } else if (method.equals("POST") && path.matches("/api/authenticate")) {
             try {
                 AuthenticationRequest authenticationRequest = fromJson(body, AuthenticationRequest.class);
@@ -79,6 +105,10 @@ public class RequestHandler implements HttpHandler {
                         List<Flower> flowers = flowerApi.getFlowers();
                         response = toJson(flowers);
                         statusCode = 200;
+                    } else if(method.equals("GET") && path.matches("api/flowersByEmail/\\d+")) {
+                        List<Flower> flowers = flowerApi.getFlowers();
+                        response = toJson(flowers);
+                        statusCode = 200;
                     }else if (method.equals("POST") && path.equals("/api/flowers")) {
                         Flower flower = fromJson(body, Flower.class);
                         response = String.valueOf(flowerApi.createFlower(flower));
@@ -91,6 +121,11 @@ public class RequestHandler implements HttpHandler {
                     } else if (method.equals("DELETE") && path.matches("/api/flowers/\\d+")) {
                         int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
                         response = String.valueOf(flowerApi.deleteFlower(flowerId));
+                        statusCode = 200;
+                    } else if (method.equals("GET") && path.matches("/api/users/\\d+")) {
+                        String userEmail = path.substring(path.lastIndexOf('/') + 1);
+                        User user = userApi.getUserByEmail(userEmail);
+                        response = toJson(user);
                         statusCode = 200;
                     } else {
                         response = "Endpoint not found";

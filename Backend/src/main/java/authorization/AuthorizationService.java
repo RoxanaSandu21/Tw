@@ -1,6 +1,7 @@
 package authorization;
 
 import exceptions.AuthenticationException;
+import exceptions.RegisterConflictException;
 import handlers.Response;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -18,15 +19,22 @@ public class AuthorizationService {
     private static final String SECRET_KEY = KeyGenerator.getSecretKey();
     private static final long JWT_EXPIRATION_TIME = 3600000;//1 hour
 
-    public static void saveUser (RegisterRequest registerRequest) {
-        User user = new User();
-        user.setEmail(registerRequest.getEmail());
-        user.setName(registerRequest.getName());
-        user.setPasswordHash(PasswordEncryptor.encryptPassword(registerRequest.getPassword()));
-        user.setPhoneNumber(registerRequest.getPhoneNumber());
-        user.setCity(registerRequest.getCity());
-        user.setRole(registerRequest.getRole());
-        UserService.saveUser(user);
+    public static void saveUser (RegisterRequest registerRequest) throws RegisterConflictException {
+
+        User checkIfUserExists = UserService.findUserByEmail(registerRequest.getEmail());
+
+        if (checkIfUserExists == null) {
+            User user = new User();
+            user.setEmail(registerRequest.getEmail());
+            user.setName(registerRequest.getName());
+            user.setPasswordHash(PasswordEncryptor.encryptPassword(registerRequest.getPassword()));
+            user.setPhoneNumber(registerRequest.getPhoneNumber());
+            user.setCity(registerRequest.getCity());
+            user.setRole(registerRequest.getRole());
+            UserService.saveUser(user);
+        } else {
+            throw new RegisterConflictException("An user with the specified email already exists!");
+        }
     }
 
     public static AuthorizationToken authenticate(AuthenticationRequest authenticationRequest) throws AuthenticationException {

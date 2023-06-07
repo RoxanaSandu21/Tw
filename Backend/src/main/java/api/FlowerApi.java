@@ -10,6 +10,10 @@ import java.util.List;
 public interface FlowerApi {
 
     @GET
+    @Path("/flowersByEmail/{email}")
+    List<Flower> getFlowersByUserEmail (@PathParam("email") String email) throws NotFoundException;
+
+    @GET
     @Path("/flowers/all")
     List<Flower> getFlowers() throws NotFoundException;
 

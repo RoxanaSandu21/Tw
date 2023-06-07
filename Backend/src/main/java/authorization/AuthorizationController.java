@@ -2,11 +2,12 @@ package authorization;
 
 import api.AuthorizationApi;
 import exceptions.AuthenticationException;
+import exceptions.RegisterConflictException;
 import handlers.Response;
 
 public class AuthorizationController implements AuthorizationApi {
     @Override
-    public Response register(RegisterRequest registerRequest) {
+    public Response register(RegisterRequest registerRequest) throws RegisterConflictException {
         AuthorizationService.saveUser(registerRequest);
         return Response.created();
     }

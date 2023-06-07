@@ -53,7 +53,34 @@ public class UserService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
+    public static void updateUser(User user) {
+        String query = "UPDATE users SET name = ?, password = ?, phone_number = ?, city = ?, role = ? WHERE email = ?";
+
+        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getPasswordHash());
+            statement.setString(3, user.getPhoneNumber());
+            statement.setString(4, user.getCity());
+            statement.setString(5, user.getRole());
+            statement.setString(6, user.getEmail());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteUser(User user) {
+        String query = "DELETE FROM users WHERE email = ?";
+
+        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+            statement.setString(1, user.getEmail());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

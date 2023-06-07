@@ -11,6 +11,11 @@ import java.util.List;
 public class FlowerController implements FlowerApi {
 
     @Override
+    public List<Flower> getFlowersByUserEmail(String email) throws NotFoundException {
+        return FlowerService.findFlowersByUserMail(email);
+    }
+
+    @Override
     public List<Flower> getFlowers() throws NotFoundException {
         return FlowerService.getAllFlowers();
     }
@@ -42,7 +47,9 @@ public class FlowerController implements FlowerApi {
         }
         // Update the flower properties
         existingFlower.setName(flower.getName());
-        // ... update other properties
+        existingFlower.setOwnerEmail(flower.getOwnerEmail());
+        existingFlower.setPlantingDate(flower.getPlantingDate());
+        existingFlower.setKind(flower.getKind());
 
         // Save the updated flower in the database
         FlowerService.updateFlower(existingFlower);
