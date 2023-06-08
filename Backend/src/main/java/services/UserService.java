@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class UserService {
 
     public static User findUserByEmail(String email) {
-        //TODO: check about thrown exceptions and do some validations on params
+
         String query = "SELECT email, name, password, phone_number, city, role FROM users WHERE email = ?";
 
         try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
@@ -29,7 +29,7 @@ public class UserService {
                 user.setRole(resultSet.getString("role"));
                 return user;
             } else {
-                return null; // Flower with the specified ID not found
+                return null;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

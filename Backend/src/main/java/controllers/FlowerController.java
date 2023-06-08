@@ -25,7 +25,6 @@ public class FlowerController implements FlowerApi {
         // Retrieve flower from the database based on the provided ID
         Flower flower = FlowerService.findFlowerById(id);
         if (flower == null) {
-            //TODO: maybe here should be a log message and a message to user
             throw new NotFoundException("Flower not found");
         }
         return flower;
@@ -39,9 +38,9 @@ public class FlowerController implements FlowerApi {
     }
 
     @Override
-    public Response updateFlower(int id, Flower flower) throws NotFoundException {
+    public Response updateFlower(Flower flower) throws NotFoundException {
         // Retrieve the existing flower from the database based on the provided ID
-        Flower existingFlower = FlowerService.findFlowerById(id);
+        Flower existingFlower = FlowerService.findFlowerById(flower.getId());
         if (existingFlower == null) {
             throw new NotFoundException("Flower not found");
         }

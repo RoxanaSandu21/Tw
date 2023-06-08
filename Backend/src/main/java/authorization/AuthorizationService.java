@@ -12,6 +12,7 @@ import utils.KeyGenerator;
 import utils.PasswordEncryptor;
 
 import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 public class AuthorizationService {
@@ -19,7 +20,7 @@ public class AuthorizationService {
     private static final String SECRET_KEY = KeyGenerator.getSecretKey();
     private static final long JWT_EXPIRATION_TIME = 3600000;//1 hour
 
-    public static void saveUser (RegisterRequest registerRequest) throws RegisterConflictException {
+    public static void saveUser (RegisterRequest registerRequest) throws RegisterConflictException, NoSuchAlgorithmException {
 
         User checkIfUserExists = UserService.findUserByEmail(registerRequest.getEmail());
 
@@ -37,7 +38,7 @@ public class AuthorizationService {
         }
     }
 
-    public static AuthorizationToken authenticate(AuthenticationRequest authenticationRequest) throws AuthenticationException {
+    public static AuthorizationToken authenticate(AuthenticationRequest authenticationRequest) throws AuthenticationException, NoSuchAlgorithmException {
 
         User user = UserService.findUserByEmail(authenticationRequest.getEmail());
 

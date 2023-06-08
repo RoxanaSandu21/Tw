@@ -23,11 +23,11 @@ public interface FlowerApi {
 
     @POST
     @Path("/flowers")
-    Response createFlower(Flower flower);
+    Response createFlower(@RequestBody Flower flower);
 
     @PUT
-    @Path("/flowers/{id}")
-    Response updateFlower(@PathParam("id") int id, Flower flower) throws NotFoundException;
+    @Path("/flowers")
+    Response updateFlower(@RequestBody Flower flower) throws NotFoundException;
 
     @DELETE
     @Path("/flowers/{id}")

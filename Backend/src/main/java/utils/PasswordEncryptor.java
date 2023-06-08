@@ -5,19 +5,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class PasswordEncryptor {
-    public static String encryptPassword(String password) {
-        try {
+    public static String encryptPassword(String password) throws NoSuchAlgorithmException {
+
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
             return bytesToHex(encodedHash);
-        } catch (NoSuchAlgorithmException e) {
-            // Handle exception
-            //TODO: log this exception maybe
-            return null;
-        }
     }
 
-    public static boolean passwordMatch(String providedPassword, String hashPassword) {
+    public static boolean passwordMatch(String providedPassword, String hashPassword) throws NoSuchAlgorithmException {
         String hashedProvidedPassword = encryptPassword(providedPassword);
         return hashedProvidedPassword != null && hashedProvidedPassword.equals(hashPassword);
     }

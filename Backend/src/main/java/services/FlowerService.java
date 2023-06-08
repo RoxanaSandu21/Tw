@@ -22,10 +22,6 @@ public class FlowerService {
 
             ResultSet resultSet = statement.executeQuery();
 
-            if (!resultSet.next()) {
-                throw new NotFoundException("Cannot find flowers for the specified email: " + userMail);
-            }
-
             List<Flower> allFlowers = new ArrayList<>();
 
             while (resultSet.next()) {
@@ -37,6 +33,11 @@ public class FlowerService {
                 flower.setOwnerEmail(resultSet.getString("owner_email"));
                 allFlowers.add(flower);
             }
+
+            if (allFlowers.isEmpty()) {
+                throw new NotFoundException("Cannot find flowers for the specified email: " + userMail);
+            }
+
             return allFlowers;
 
         } catch (SQLException e) {
@@ -45,7 +46,7 @@ public class FlowerService {
     }
 
     public static Flower findFlowerById(int id) {
-        //TODO: check about thrown exceptions and do some validations on params
+
         String query = "SELECT flower_id, name, kind, planting_date, owner_email FROM flowers WHERE flower_id = ?";
 
         try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
@@ -76,10 +77,6 @@ public class FlowerService {
 
             ResultSet resultSet = statement.executeQuery();
 
-            if (!resultSet.next()) {
-                throw new NotFoundException("Cannot find flowers!");
-            }
-
             List<Flower> allFlowers = new ArrayList<>();
 
             while (resultSet.next()) {
@@ -91,6 +88,11 @@ public class FlowerService {
                 flower.setOwnerEmail(resultSet.getString("owner_email"));
                 allFlowers.add(flower);
             }
+
+            if (allFlowers.isEmpty()) {
+                throw new NotFoundException("Cannot find flowers!");
+            }
+
             return allFlowers;
 
         } catch (SQLException e) {
@@ -102,15 +104,14 @@ public class FlowerService {
 
     public static void saveFlower(Flower flower) {
 
-        String query = "INSERT INTO flowers (flower_id, name, kind, planting_date, owner_email) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO flowers (name, kind, planting_date, owner_email) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
-            //TODO: autogenerate ID by sequence and modify here
-            statement.setInt(1, flower.getId());
-            statement.setString(2, flower.getName());
-            statement.setString(3, flower.getKind());
-            statement.setDate(4, (Date) flower.getPlantingDate());
-            statement.setString(5, flower.getOwnerEmail());
+            
+            statement.setString(1, flower.getName());
+            statement.setString(2, flower.getKind());
+            statement.setDate(3, (Date) flower.getPlantingDate());
+            statement.setString(4, flower.getOwnerEmail());
 
             statement.executeUpdate();
         } catch (SQLException e) {

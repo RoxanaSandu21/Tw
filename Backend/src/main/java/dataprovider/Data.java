@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class Data {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String URL = "jdbc:postgresql://localhost:5432/flowerManager";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "password";
+    private static final String PASSWORD = "postgres2";
     private static Connection connection = null;
 
     private Data() {
