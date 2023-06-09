@@ -14,7 +14,7 @@ public class UserService {
 
         String query = "SELECT email, name, password, phone_number, city, role FROM users WHERE email = ?";
 
-        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             statement.setString(1, email);
 
             ResultSet resultSet = statement.executeQuery();
@@ -40,7 +40,7 @@ public class UserService {
 
         String query = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             statement.setString(1, user.getEmail());
             statement.setString(2, user.getName());
             statement.setString(3, user.getPasswordHash());
@@ -58,7 +58,7 @@ public class UserService {
     public static void updateUser(User user) {
         String query = "UPDATE users SET name = ?, password = ?, phone_number = ?, city = ?, role = ? WHERE email = ?";
 
-        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getPasswordHash());
             statement.setString(3, user.getPhoneNumber());
@@ -75,7 +75,7 @@ public class UserService {
     public static void deleteUser(User user) {
         String query = "DELETE FROM users WHERE email = ?";
 
-        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             statement.setString(1, user.getEmail());
 
             statement.executeUpdate();

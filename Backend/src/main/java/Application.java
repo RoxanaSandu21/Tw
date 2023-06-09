@@ -18,7 +18,7 @@ public class Application {
         System.out.println("Server started on port 8080");
     }
 
-    //This is a test for emails part
+//    This is a test for emails part
 //    public static void main(String[] args) {
 //        try {
 //            EmailSender.sendEmail("cristimadalincerbu@gmail.com", new Flower());

@@ -7,6 +7,7 @@ import authorization.AuthenticationRequest;
 import authorization.AuthorizationController;
 import authorization.RegisterRequest;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import controllers.FlowerController;
@@ -20,6 +21,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import models.Flower;
 import models.User;
+import utils.DateDeserializer;
 import utils.KeyGenerator;
 
 import java.io.BufferedReader;
@@ -90,7 +92,7 @@ public class RequestHandler implements HttpHandler {
                 statusCode = 200;
             } catch (AuthenticationException e) {
                 response = e.getMessage();
-                statusCode = 404;
+                statusCode = 401;
             } catch (NoSuchAlgorithmException e) {
                 response = e.getMessage();
                 statusCode = 500;
@@ -187,7 +189,12 @@ public class RequestHandler implements HttpHandler {
     }
 
     private <T> T fromJson(String json, Class<T> clazz) {
-        return new Gson().fromJson(json, clazz);
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer("dd-MM-yyyy"));
+        Gson gson = gsonBuilder.create();
+
+        return gson.fromJson(json, clazz);
     }
 
     private String toJson(Object object) {

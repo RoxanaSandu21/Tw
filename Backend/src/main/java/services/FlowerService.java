@@ -16,7 +16,7 @@ public class FlowerService {
     public static List<Flower> findFlowersByUserMail (String userMail) throws NotFoundException {
         String query = "SELECT flower_id, name, kind, planting_date, owner_email FROM flowers WHERE owner_email = ?";
 
-        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
 
             statement.setString(1, userMail);
 
@@ -49,7 +49,7 @@ public class FlowerService {
 
         String query = "SELECT flower_id, name, kind, planting_date, owner_email FROM flowers WHERE flower_id = ?";
 
-        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
@@ -73,7 +73,7 @@ public class FlowerService {
     public static List<Flower> getAllFlowers () throws NotFoundException {
         String query = "SELECT flower_id, name, kind, planting_date, owner_email FROM flowers";
 
-        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -106,11 +106,11 @@ public class FlowerService {
 
         String query = "INSERT INTO flowers (name, kind, planting_date, owner_email) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             
             statement.setString(1, flower.getName());
             statement.setString(2, flower.getKind());
-            statement.setDate(3, (Date) flower.getPlantingDate());
+            statement.setDate(3, new Date(flower.getPlantingDate().getTime()));
             statement.setString(4, flower.getOwnerEmail());
 
             statement.executeUpdate();
@@ -124,7 +124,7 @@ public class FlowerService {
 
         String query = "UPDATE flowers SET name = ?, kind = ?, planting_date = ?, owner_email = ? WHERE flower_id = ?";
 
-        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             statement.setString(1, flower.getName());
             statement.setString(2, flower.getKind());
             statement.setDate(3, (Date) flower.getPlantingDate());
@@ -142,7 +142,7 @@ public class FlowerService {
 
         String query = "DELETE FROM flowers WHERE flower_id = ?";
 
-        try (PreparedStatement statement = Data.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             statement.setInt(1, flower.getId());
 
             statement.executeUpdate();
