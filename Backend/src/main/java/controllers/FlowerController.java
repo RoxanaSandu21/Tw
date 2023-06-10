@@ -1,14 +1,22 @@
 package controllers;
 
 import api.FlowerApi;
+import enums.FlowerStatusEnum;
 import exceptions.NotFoundException;
 import handlers.Response;
 import models.Flower;
+import models.FlowerListed;
 import services.FlowerService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class FlowerController implements FlowerApi {
+
+    @Override
+    public List<FlowerListed> getFlowersListed() throws NotFoundException {
+        return FlowerService.getFlowersListed();
+    }
 
     @Override
     public List<Flower> getFlowersByUserEmail(String email) throws NotFoundException {
@@ -35,6 +43,18 @@ public class FlowerController implements FlowerApi {
         // Save the new flower in the database
         FlowerService.saveFlower(flower);
         return Response.created();
+    }
+
+    @Override
+    public Response listFlower(int id, BigDecimal price) throws NotFoundException {
+        FlowerService.listFlower(id, price);
+        return Response.ok();
+    }
+
+    @Override
+    public Response sellFlower(int id, String sellerMail) throws NotFoundException {
+        FlowerService.sellFlower(id, sellerMail);
+        return Response.ok();
     }
 
     @Override

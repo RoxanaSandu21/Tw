@@ -20,6 +20,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import models.Flower;
+import models.FlowerListed;
 import models.User;
 import utils.DateDeserializer;
 import utils.KeyGenerator;
@@ -28,6 +29,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
@@ -124,7 +126,11 @@ public class RequestHandler implements HttpHandler {
                         List<Flower> flowers = flowerApi.getFlowers();
                         response = toJson(flowers);
                         statusCode = 200;
-                    } else if(method.equals("GET") && path.matches("/api/flowersByEmail/.*")) {
+                    } else if (method.equals("GET") && path.matches("/api/flowers/listed")) {
+                        List<FlowerListed> flowersListed = flowerApi.getFlowersListed();
+                        response = toJson(flowersListed);
+                        statusCode = 200;
+                    }else if(method.equals("GET") && path.matches("/api/flowersByEmail/.*")) {
                         String userEmail = path.substring(path.lastIndexOf('/') + 1);
 
                         if (!userEmail.equals(payloadUserMail)) {
@@ -138,6 +144,15 @@ public class RequestHandler implements HttpHandler {
                         Flower flower = fromJson(body, Flower.class);
                         response = String.valueOf(flowerApi.createFlower(flower));
                         statusCode = 201;
+                    } else if (method.equals("POST") && path.matches("/api/flowers/listFlower/\\d+")) {
+                        int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
+                        BigDecimal price = fromJson(body, BigDecimal.class);
+                        response = String.valueOf(flowerApi.listFlower(flowerId, price));
+                        statusCode = 200;
+                    } else if (method.equals("POST") && path.matches("/api/flowers/sellFlower/\\d+")) {
+                        int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
+                        response = String.valueOf(flowerApi.sellFlower(flowerId, payloadUserMail));
+                        statusCode = 200;
                     } else if (method.equals("PUT") && path.matches("/api/flowers")) {
                         Flower flower = fromJson(body, Flower.class);
                         response = String.valueOf(flowerApi.updateFlower(flower));

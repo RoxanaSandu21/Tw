@@ -4,10 +4,17 @@ import annotations.*;
 import exceptions.NotFoundException;
 import handlers.Response;
 import models.Flower;
+import models.FlowerListed;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface FlowerApi {
+
+
+    @GET
+    @Path("flowers/listed")
+    List<FlowerListed> getFlowersListed() throws NotFoundException;
 
     @GET
     @Path("/flowersByEmail/{email}")
@@ -24,6 +31,14 @@ public interface FlowerApi {
     @POST
     @Path("/flowers")
     Response createFlower(@RequestBody Flower flower);
+
+    @POST
+    @Path("/flowers/listFlower/{id}")
+    Response listFlower(@PathParam("id") int id, @RequestBody BigDecimal price) throws NotFoundException;
+
+    @POST
+    @Path("/flowers/sellFlower/{id}")
+    Response sellFlower(@PathParam("id") int id, String sellerMail) throws NotFoundException;
 
     @PUT
     @Path("/flowers")

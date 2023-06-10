@@ -1,20 +1,20 @@
 package services;
 
 import dataprovider.Data;
+import enums.FlowerStatusEnum;
 import exceptions.NotFoundException;
 import models.Flower;
+import models.FlowerListed;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FlowerService {
 
     public static List<Flower> findFlowersByUserMail (String userMail) throws NotFoundException {
-        String query = "SELECT flower_id, name, kind, planting_date, owner_email FROM flowers WHERE owner_email = ?";
+        String query = "SELECT flower_id, name, kind, planting_date, owner_email, status FROM flowers WHERE owner_email = ?";
 
         try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
 
@@ -31,6 +31,7 @@ public class FlowerService {
                 flower.setKind(resultSet.getString("kind"));
                 flower.setPlantingDate(resultSet.getDate("planting_date"));
                 flower.setOwnerEmail(resultSet.getString("owner_email"));
+                flower.setStatus(resultSet.getString("status"));
                 allFlowers.add(flower);
             }
 
@@ -47,7 +48,7 @@ public class FlowerService {
 
     public static Flower findFlowerById(int id) {
 
-        String query = "SELECT flower_id, name, kind, planting_date, owner_email FROM flowers WHERE flower_id = ?";
+        String query = "SELECT flower_id, name, kind, planting_date, owner_email, status FROM flowers WHERE flower_id = ?";
 
         try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             statement.setInt(1, id);
@@ -61,6 +62,7 @@ public class FlowerService {
                 flower.setKind(resultSet.getString("kind"));
                 flower.setPlantingDate(resultSet.getDate("planting_date"));
                 flower.setOwnerEmail(resultSet.getString("owner_email"));
+                flower.setStatus(resultSet.getString("status"));
                 return flower;
             } else {
                 return null; // Flower with the specified ID not found
@@ -71,7 +73,7 @@ public class FlowerService {
     }
 
     public static List<Flower> getAllFlowers () throws NotFoundException {
-        String query = "SELECT flower_id, name, kind, planting_date, owner_email FROM flowers";
+        String query = "SELECT flower_id, name, kind, planting_date, owner_email, status FROM flowers";
 
         try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
 
@@ -86,6 +88,7 @@ public class FlowerService {
                 flower.setKind(resultSet.getString("kind"));
                 flower.setPlantingDate(resultSet.getDate("planting_date"));
                 flower.setOwnerEmail(resultSet.getString("owner_email"));
+                flower.setStatus(resultSet.getString("status"));
                 allFlowers.add(flower);
             }
 
@@ -101,10 +104,44 @@ public class FlowerService {
 
     }
 
+    public static List<FlowerListed> getFlowersListed () throws NotFoundException {
+        String query = "SELECT flower.flower_id as id, flower.name as name, flower.kind as kind, flower.planting_date as date, " +
+                "flower.owner_email as email, flower.status as status, sales.price as price" +
+                " FROM flowers flower JOIN flower_sales sales ON flower.flower_id = sales.flower_id where LOWER(flower.status) = 'listed'";
+
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
+
+            ResultSet resultSet = statement.executeQuery();
+
+            List<FlowerListed> allFlowersListed = new ArrayList<>();
+
+            while (resultSet.next()) {
+                FlowerListed flower = new FlowerListed();
+                flower.setId(resultSet.getInt("id"));
+                flower.setName(resultSet.getString("name"));
+                flower.setKind(resultSet.getString("kind"));
+                flower.setPlantingDate(resultSet.getDate("date"));
+                flower.setOwnerEmail(resultSet.getString("email"));
+                flower.setStatus(resultSet.getString("status"));
+                flower.setPrice(resultSet.getBigDecimal("price"));
+                allFlowersListed.add(flower);
+            }
+
+            if (allFlowersListed.isEmpty()) {
+                throw new NotFoundException("Cannot find flowers!");
+            }
+
+            return allFlowersListed;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public static void saveFlower(Flower flower) {
 
-        String query = "INSERT INTO flowers (name, kind, planting_date, owner_email) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO flowers (name, kind, planting_date, owner_email, status) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             
@@ -112,6 +149,7 @@ public class FlowerService {
             statement.setString(2, flower.getKind());
             statement.setDate(3, new Date(flower.getPlantingDate().getTime()));
             statement.setString(4, flower.getOwnerEmail());
+            statement.setString(5, FlowerStatusEnum.CULTIVATION_PROCESS.name().toLowerCase());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -122,14 +160,15 @@ public class FlowerService {
 
     public static void updateFlower(Flower flower) {
 
-        String query = "UPDATE flowers SET name = ?, kind = ?, planting_date = ?, owner_email = ? WHERE flower_id = ?";
+        String query = "UPDATE flowers SET name = ?, kind = ?, planting_date = ?, owner_email = ?, status = ? WHERE flower_id = ?";
 
         try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             statement.setString(1, flower.getName());
             statement.setString(2, flower.getKind());
             statement.setDate(3, (Date) flower.getPlantingDate());
             statement.setString(4, flower.getOwnerEmail());
-            statement.setInt(5, flower.getId());
+            statement.setString(5, flower.getStatus());
+            statement.setInt(6, flower.getId());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -144,6 +183,66 @@ public class FlowerService {
 
         try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             statement.setInt(1, flower.getId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void listFlower (int id, BigDecimal price) throws NotFoundException {
+        Flower flower = findFlowerById(id);
+
+        if (flower == null) {
+            throw new NotFoundException(String.format("Flower with id: %d not found", id));
+        }
+
+        flower.setStatus(FlowerStatusEnum.LISTED.name().toLowerCase());
+
+        updateFlower(flower);
+
+        insertListedFlower(id, price);
+    }
+
+    public static void sellFlower (int id, String sellerMail) throws NotFoundException {
+        Flower flower = findFlowerById(id);
+
+        if (flower == null) {
+            throw new NotFoundException(String.format("Flower with id: %d not found", id));
+        }
+
+        flower.setStatus(FlowerStatusEnum.SELLED.name().toLowerCase());
+
+        updateFlower(flower);
+
+        updateSellInformation(id, sellerMail);
+    }
+
+    private static void insertListedFlower (int id, BigDecimal price) {
+        String query = "INSERT INTO flower_sales (flower_id, price, listed_date, buyer_email, buy_date) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
+
+            statement.setInt(1, id);
+            statement.setBigDecimal(2, price);
+            statement.setDate(3, new Date(System.currentTimeMillis()));
+            statement.setNull(4, Types.VARCHAR);
+            statement.setNull(5, Types.DATE);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void updateSellInformation (int id, String clientMail) {
+
+        String query = "UPDATE flower_sales SET buyer_email = ?, buy_date =? WHERE flower_id = ?";
+
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
+            statement.setString(1, clientMail);
+            statement.setDate(2, new Date(System.currentTimeMillis()));
+            statement.setInt(3, id);
 
             statement.executeUpdate();
         } catch (SQLException e) {

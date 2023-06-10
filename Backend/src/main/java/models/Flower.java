@@ -10,15 +10,18 @@ public class Flower {
     private Date plantingDate;
     private String ownerEmail;
 
+    private String status;
+
     public Flower() {
     }
 
-    public Flower(int id, String name, String kind, Date date, String ownerEmail) {
+    public Flower(int id, String name, String kind, Date date, String ownerEmail, String status) {
         this.id = id;
         this.name = name;
         this.kind = kind;
         this.plantingDate = date;
         this.ownerEmail = ownerEmail;
+        this.status = status;
     }
 
     public int getId() {
@@ -59,5 +62,13 @@ public class Flower {
 
     public void setOwnerEmail(String ownerEmail) {
         this.ownerEmail = ownerEmail;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
