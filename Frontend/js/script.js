@@ -27,8 +27,3 @@ window.onscroll = () =>{
     searchForm.classList.remove('active');
     cartItem.classList.remove('active');
 }
-
-function showPopup() {
-    alert("You succefully signed in!");
-    window.location.href='profile.html';
-  }

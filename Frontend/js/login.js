@@ -28,6 +28,66 @@ window.onscroll = () =>{
     cartItem.classList.remove('active');
 }
 
+localStorage.removeItem("token");
+
+function parseJwt(token) {
+    if (!token){ 
+      return;
+    }
+    console.log(token);
+    const base64 = token.split('.')[1]; // extracting payload
+    return JSON.parse(window.atob(base64));
+  }
+
+const loginForm = document.getElementById("loginForm");
+const loginBtn = document.getElementById("submitButton");
+
+
+loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(loginForm);
+    const loginData = {
+        "email" : formData.get('email'),
+        "password" : formData.get('password')
+    };
+    try{
+        const response = await fetch('http://127.0.0.1:8080/api/authenticate',{
+            method : 'POST',
+            headers:{
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(loginData)
+        });
+        if(!response.ok){
+            if(response.status === 404){
+                let error = document.getElementById("passwordErrorLogin");
+                error.textContent = ("Email or password invalid!");
+            }
+            return;
+        }
+        // console.log(response);
+        // const data = await response.json();
+        // console.log(data);
+        const token = await response.text();
+        console.log(token);
+        localStorage.setItem('token', token);
+        if(token != null){
+            let role = parseJwt(token).role.toLowerCase();
+            if(role == "admin"){
+            window.location.href = 'profile.html';
+        } else{
+            window.location.href = 'profile.html';
+        }
+        }
+        else{
+            let error = document.getElementById("passwordErrorLogin");
+            error.textContent = ("Email or password invalid!");
+        }
+    }catch(error){
+        console.error("An error has occured", error.message);
+    }
+});
+
 
 function validateLogin(){
     const emailInput = document.getElementById("emailLogin");

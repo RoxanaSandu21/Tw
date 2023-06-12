@@ -70,13 +70,13 @@
 
     <div class="container">
         <div class="centered">
-            <form onsubmit="return validateLogin();" action="profile.html">
+            <form id="loginForm" onsubmit="validateLogin();">
             <h1>Sign in with your credentials</h1>
             <h3>E-mail address:</h3>
-            <input type="email" id="emailLogin" name="email" placeholder="Email address">
+            <input type="email" id="emailLogin" name="email" placeholder="email address">
             <span class="error" id="emailErrorLogin"></span>
             <h3>Password:</h3>
-            <input type="password" id="passwordLogin" name="password" placeholder="Password"><br><br>
+            <input type="password" id="passwordLogin" name="password" placeholder="password"><br><br>
             <span class="error" id="passwordErrorLogin"></span>
             <button class="buttonLogin" id="submitButton" type="submit"><span>Sign In</span></button>
             <a href="register.html">

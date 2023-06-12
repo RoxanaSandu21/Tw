@@ -606,6 +606,7 @@ input[type=email], select {
   .profile input[type="text"],
   .profile input[type="email"],
   .profile input[type="date"],
+  .profile input[type="tel"],
   .profile textarea {
     border:0.1em solid #ccc;
     padding: 1em;
@@ -693,6 +694,10 @@ input[type=email], select {
 
 
   /* profile */
+
+  .title h2{
+    text-transform: capitalize;
+  }
 
 .review .box-container{
     display: grid;

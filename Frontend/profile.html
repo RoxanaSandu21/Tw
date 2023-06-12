@@ -30,9 +30,7 @@
         <div class="icons">
             <div class="fas fa-search" id="search-btn"></div>
             <div class="fas fa-shopping-cart" id="cart-btn"></div>
-            <a href="login.html">
-                <div class="fas fa-solid fa-user" id="login"></div>
-                </a>
+            <div class="fas fa-solid fa-user" id="login"></div>
           <div class="fas fa-bars" id="menu-btn"></div>
         </div>
     
@@ -69,23 +67,24 @@
 <section class="profile" id="profile" style="padding-top: 10%">
     <button id="logoutButton" class="buttonLogOut" onclick="window.location.href='login.html'"><span>Log Out</span></button>
     <button id="statusButton" class="buttonFlowerStatus" onclick="window.location.href='flowerTool.html'"><span>See your flower status</span></button>
+    <button id="editButton" class="buttonEdit"><span>Edit</span></button>
     <h2>Edit your profile</h2>
 
-  <label for="name">Name: <br><input type="text" id="fullName" name="fullName" placeholder="Cedrik"><br></label>
+  <label for="name" >Name: <br><input type="text" id="fullName" name="fullName"><br></label>
 
-  <label for="email">Email: <br><input type="email" id="email" name="email" placeholder="cedrikfatguy@hotchick.com"><br></label>
+  <label for="city" >City: <br><input type="text" id="city" name="city"><br></label>
 
-  <label for="city" >City: <br><input type="text" id="city" name="city" placeholder="Iasi"><br></label>
+  <label for="phoneNumber">Phone Number: <br><input type="tel" id="phoneNumber" name="phoneNumber"><br></label>
 
-  <label for="accountPurpose">Account Purpose: <br><input type="text" id="accountPurpose" name="accountPurpose" placeholder="Grower"><br></label>
+  <label for="email" id = "email" name ="email">Email: </label><br>
 
-  <label for="accountCreatedOn">Account Created On: 05/04/2023</label>
-  <button id="accountCreatedOn" class="buttonEdit" onclick="window.location.href='profile.html'"><span>Edit</span></button>
+  <label for="accountPurpose" type ="text" id = "accountPurpose" name ="accountPurpose">Account purpose: </label>
   
 </section>
+<button id="deleteButton" class ="buttonLogOut" style="position:absolute;bottom:0;right:0;"><span>Delete account</span></button>
 
 <!-- custom js file link  -->
-<script src="js/script.js"></script>
+<script src="js/profile.js"></script>
     
 </body>
 </html>

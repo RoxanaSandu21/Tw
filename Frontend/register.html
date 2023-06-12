@@ -71,31 +71,40 @@
 
     <div class="container">
         <div class="centered">
+        <form id="registerForm"> 
           <h1>Complete the following fields</h1>
+            <h3>Name:</h3>
+            <input type="name" id="nameRegister" name="name" placeholder="Your name">
+            <span class="error" id="nameErrorRegister"></span>
             <h3>E-mail address:</h3>
-            <input type="email" id="emailRegister" name="email" placeholder="email address" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+            <input type="email" id="emailRegister" name="email" placeholder="Email address">
             <span class="error" id="emailErrorRegister"></span>
             <h3>Password:</h3>
-            <input type="password" id="passwordRegister" name="password" placeholder="password"  required pattern=".{8,}">
+            <input type="password" id="passwordRegister" name="passwordRegister" placeholder="Password">
             <span class="error" id="passwordErrorRegister"></span>
             <h3>Phone number:</h3>
-            <input type="tel" id="tel" name="telRegister" placeholder="phone number"  required pattern="[+0-9]{7,15}">
-            <span class="error" id="telErrorRegister"></span>
+            <input type="tel" id="phoneNumber" name="phoneNumberRegister" placeholder="Phone number">
+            <span class="error" id="phoneNumberErrorRegister"></span>
+            <h3>City:</h3>
+            <input type="name" id="city" name="cityRegister" placeholder="Where are you living?">
+            <span class="error" id="cityErrorRegister"></span>
             <h3>What's this account purpose?</h3>
-            <select id="dropdownRegister" name="dropdown">
+            <select id="dropDownRegister" name="dropdown">
               <option value="choose_option">Please choose an option</option>
-              <option value="option1">I'm a grower</option>
-              <option value="option2">I'm a customer</option>
+              <option value="option1">Grower</option>
+              <option value="option2">Customer</option>
             </select>
-            <span class="error" id="dropdownErrorRegister"></span>
-            <button class="buttonRegister" onclick="window.location.href='login.html'"><span>Register</span></button>
+            <span class="error" id="dropDownErrorRegister"></span>
+            <button class="buttonRegister" type="submit"><span>Register</span></button>
+        </form>
         </div>
       </div>
 
 </section>
 
 <!-- custom js file link  -->
-<script src="js/script.js"></script>
+<script src="js/register.js"></script>
+
 
 </body>
 </html>
