@@ -68,7 +68,7 @@ signUpForm.addEventListener('submit', async (event) => {
         localStorage.setItem('token',token);
         console.log(token);
         if(token != null){
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         }
         else{
             document.getElementById("emailErrorRegister").textContent = "Email address already in use!"

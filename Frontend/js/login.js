@@ -74,9 +74,9 @@ loginForm.addEventListener('submit', async (event) => {
         if(token != null){
             let role = parseJwt(token).role.toLowerCase();
             if(role == "admin"){
-            window.location.href = 'profile.html';
+            window.location.href = 'home.html';
         } else{
-            window.location.href = 'profile.html';
+            window.location.href = 'home.html';
         }
         }
         else{

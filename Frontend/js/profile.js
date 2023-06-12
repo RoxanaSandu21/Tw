@@ -29,8 +29,8 @@ window.onscroll = () =>{
 }
 
 document.getElementById("login").onclick = () => {
-    if(localStorage.getItem("token") === null){
-        window.location.href = "login.html";
+    if(localStorage.getItem("token") == null){
+        window.location.href = "index.html";
     } else{
         window.location.href = "profile.html";
     }
@@ -38,7 +38,7 @@ document.getElementById("login").onclick = () => {
 
 document.getElementById("logoutButton").onclick = () => {
     localStorage.removeItem("token");
-    window.location.href = "login.html";
+    window.location.href = "index.html";
 }
 
 const token = localStorage.getItem("token");
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded",async (event) => {
         if(!response.ok){
             if(response.status === 401){
                 console.log("Authorization refused!");
-                window.location.href = "login.html";
+                window.location.href = "index.html";
             }
             return;
         }

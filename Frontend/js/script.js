@@ -27,3 +27,14 @@ window.onscroll = () =>{
     searchForm.classList.remove('active');
     cartItem.classList.remove('active');
 }
+
+function isLoggedIn() {
+    let token = localStorage.getItem('token');
+
+     if (token === null) {
+         window.location.href = 'index.html'; 
+         return;
+     }
+}
+
+isLoggedIn();
