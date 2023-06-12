@@ -1,5 +1,8 @@
 import com.sun.net.httpserver.HttpServer;
+import exceptions.EmailSenderException;
 import handlers.RequestHandler;
+import models.Flower;
+import utils.EmailSender;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -14,4 +17,13 @@ public class Application {
         server.start();
         System.out.println("Server started on port 8080");
     }
+
+//    This is a test for emails part
+//    public static void main(String[] args) {
+//        try {
+//            EmailSender.sendEmail("cristimadalincerbu@gmail.com", new Flower());
+//        } catch (EmailSenderException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 }

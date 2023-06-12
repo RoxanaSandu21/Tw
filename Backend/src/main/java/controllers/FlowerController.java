@@ -1,14 +1,22 @@
 package controllers;
 
 import api.FlowerApi;
+import enums.FlowerStatusEnum;
 import exceptions.NotFoundException;
 import handlers.Response;
 import models.Flower;
+import models.FlowerListed;
 import services.FlowerService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class FlowerController implements FlowerApi {
+
+    @Override
+    public List<FlowerListed> getFlowersListed() throws NotFoundException {
+        return FlowerService.getFlowersListed();
+    }
 
     @Override
     public List<Flower> getFlowersByUserEmail(String email) throws NotFoundException {
@@ -25,7 +33,6 @@ public class FlowerController implements FlowerApi {
         // Retrieve flower from the database based on the provided ID
         Flower flower = FlowerService.findFlowerById(id);
         if (flower == null) {
-            //TODO: maybe here should be a log message and a message to user
             throw new NotFoundException("Flower not found");
         }
         return flower;
@@ -39,9 +46,21 @@ public class FlowerController implements FlowerApi {
     }
 
     @Override
-    public Response updateFlower(int id, Flower flower) throws NotFoundException {
+    public Response listFlower(int id, BigDecimal price) throws NotFoundException {
+        FlowerService.listFlower(id, price);
+        return Response.ok();
+    }
+
+    @Override
+    public Response sellFlower(int id, String sellerMail) throws NotFoundException {
+        FlowerService.sellFlower(id, sellerMail);
+        return Response.ok();
+    }
+
+    @Override
+    public Response updateFlower(Flower flower) throws NotFoundException {
         // Retrieve the existing flower from the database based on the provided ID
-        Flower existingFlower = FlowerService.findFlowerById(id);
+        Flower existingFlower = FlowerService.findFlowerById(flower.getId());
         if (existingFlower == null) {
             throw new NotFoundException("Flower not found");
         }
