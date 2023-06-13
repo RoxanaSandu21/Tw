@@ -12,9 +12,7 @@
     <!-- custom css file link  -->
     <link rel="stylesheet" href="css/style.css">
 
-    <script src="js/flower-tool.js"> </script>
-
-    <title>Document</title>
+    <title>Your Flowers</title>
 </head>
 <body>
     <header class="header">
@@ -23,20 +21,18 @@
         </a>
     
         <nav class="navbar">
-            <a href="home.html">home</a>
-            <a href="about.html">about</a>
-            <a href="help.html">help</a>
-            <a href="products.html">products</a>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="help.html">Help</a>
+            <a href="products.html">Products</a>
             <!-- <a href="#review">reviews</a> -->
         </nav>
 
         <div class="icons">
           <div class="fas fa-search" id="search-btn"></div>
           <div class="fas fa-shopping-cart" id="cart-btn"></div>
-          <a href="index.html">
-              <div class="fas fa-solid fa-user" id="login"></div>
-              </a>
-        <div class="fas fa-bars" id="menu-btn"></div>
+          <div class="fas fa-solid fa-user" id="login"></div>
+          <div class="fas fa-bars" id="menu-btn"></div>
 
         <div class="search-form">
           <input type="search" id="search-box" placeholder="search here...">
@@ -70,9 +66,9 @@
     <h1 class="content-title">Add a flower</h1>
     <div class="overlay" id="overlay" style="display: none;"></div>
     <div class="div-form" id="div-form" style="display: none;">
-      <form class="form-container">
+      <form id="addFlowerForm" class="form-container" onsubmit="return checkValid();">
         <label class="form-component">Flower name</label>
-        <select id="dropDownFlower" name="dropdown">
+        <select id="name" name="name">
           <option value="choose_option">Please choose an option</option>
           <option value="optionZambila">Zambila</option>
           <option value="optionLalea">Lalea</option>
@@ -95,9 +91,11 @@
         <input id = "date" type="date">
         <span class="error" id="dateError"></span>
 
+        <button class="status form-component" onclick="return checkValid();" id="add-submitBtn">SUBMIT</button>
+
       </form>
 
-      <button class="status form-component" onclick="checkValid()" id="add-submitBtn">SUBMIT</button>
+   
         <button onclick="closeForm();" class="status form-component" style="background: #8b0000; color: #FFA8A8; box-shadow: rgba(255, 168, 168, .2) 0 -25px 18px -14px inset,rgba(255, 168, 168, .15) 0 1px 2px,rgba(255, 168, 168, .15) 0 2px 4px,rgba(255, 168, 168, .15) 0 4px 8px,rgba(255, 168, 168, .15) 0 8px 16px,rgba(255, 168, 168, .15) 0 16px 32px;" id="cancel-submitBtn">CANCEL</button>
     </div>
     <div class="filters" style="display:none;">
@@ -111,7 +109,6 @@
         </svg>
       </div>
     </div>
-
 
 <template id="card-template">
   <div class="card">
@@ -127,14 +124,11 @@
         <p>Irigare: x zile ramase</p>
     </div>
 
-    <div class="status" id="statusBtn"></div>
-
-  
+    <div class="status" id="statusBtn"><span id="statusBtnSpan"></span></div>
    
 
-      <div class="options-button" id="options-button" title="Go to flower culture">
+      <div class="options-button" id="optionsButton" title="Go to flower culture">
 
-        <a href="flowerInfoActions.html">
 
         <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18">
           <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" /><path d="M3.662,14.0265a6.635,6.635,0,0,1-1.328-3.897,6.7415,6.7415,0,0,1,6.472-6.759,6.6655,6.6655,0,0,1,5.532,10.656.3625.3625,0,0,0,.05.5l.4655.3875a.3665.3665,0,0,0,.51642-.0442l.00758-.0093a8,8,0,1,0-12.7575,0,.3645.3645,0,0,0,.5117.06229l.0108-.00879.466-.388A.362.362,0,0,0,3.662,14.0265Z" />
@@ -146,12 +140,12 @@
           <circle cx="14.091" cy="10.0345" r="0.7275" />
         </svg>
 
-        </a>
       </div>
 
   </div>
 </template>
 
 <script src="js/flower-tool.js"></script>
+
 </body>
 </html>

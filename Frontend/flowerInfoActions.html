@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- font awesome cdn link  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css%22%3E
 
 
     <!-- custom css file link  -->
     <link rel="stylesheet" href="css/style.css">
 
-    
+
     <title>Document</title>
 </head>
 <body>
@@ -21,9 +21,8 @@
         <a href="#" class="logo">
             <img src="images/logo2.jpg" alt="">
         </a>
-    
-        <nav class="navbar">
-            <a href="home.html">Home</a>
+<nav class="navbar">
+            <a href="index.html">Home</a>
             <a href="about.html">About</a>
             <a href="help.html">Help</a>
             <a href="products.html">Products</a>
@@ -33,9 +32,7 @@
         <div class="icons">
             <div class="fas fa-search" id="search-btn"></div>
             <div class="fas fa-shopping-cart" id="cart-btn"></div>
-            <a href="index.html">
-                <div class="fas fa-solid fa-user" id="login"></div>
-                </a>
+            <div class="fas fa-solid fa-user" id="login"></div>
           <div class="fas fa-bars" id="menu-btn"></div>
 
           <div class="search-form">
@@ -60,16 +57,15 @@
                         <div class="price">$15.99</div>
                     </div>
                 </div>
-                
-                <a href="checkOut.html" class="btn">Checkout now</a>
+
+                <a href="checkOut.html" class="btn">checkout now</a>
             </div>
 
         </div>
-    
+
 
     </header>
-
-    <h1 class="content-title">Lalea</h1>
+<h1 class="content-title" id ="name" style="text-transform: capitalize;"></h1>
     <div class="control-panel">
         <div class="toolbar">
             <button type="button" class="action-button">Actions</button>
@@ -77,12 +73,12 @@
             <button type="button" class="action-button">Edit</button>
         </div>
         <div class="cp-info">
-            <p class="cp-text">Umiditate: valoare</p>
-            <p class="cp-text">Temperatura: valoare</p>
-            <p class="cp-text">Soi: valoare</p>
-            <p class="cp-text">Data plantare: valoare</p>
-            <p class="cp-text">Istoric actiuni: valoare</p>
-            <p class="cp-text">Se recomanda: actiuni recomandate</p>
+            <p class="cp-text" id ="humidity">Humidity: </p>
+            <p class="cp-text" id ="temperature">Temperature: valoare</p>
+            <p class="cp-text" id ="kind"></p>
+            <p class="cp-text" id ="date">Planting </p>
+            <p class="cp-text" id ="actions_history">Actions history: valoare</p>
+            <p class="cp-text" id ="actions_recommended">Recommended actions: actiuni recomandate</p>
         </div>
         <div class="photos">
             <img src="https://crinulalb.ro/image/cache/catalog/01%20produse/lalele-900x900.jpg" class="cp-photo" alt="1">
@@ -90,7 +86,7 @@
         </div>
     </div>
 
-    <script src="js/script.js"></script>
+    <script src="js/flower-actions.js"></script>
 
 </body>
 </html>
