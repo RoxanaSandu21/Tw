@@ -203,6 +203,12 @@ section{
     text-align: center;
 }
 
+#totalPrice {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
 .home{
     min-height: 100vh;
     display: flex;

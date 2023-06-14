@@ -29,7 +29,7 @@ window.onscroll = () =>{
 }
 
 document.getElementById("login").onclick = () => {
-    if(localStorage.getItem("token") == null){
+    if(localStorage.getItem("token") === null){
         window.location.href = "index.html";
     } else{
         window.location.href = "profile.html";
@@ -122,3 +122,74 @@ editButton.addEventListener("click", async (event) => {
     })
 
 
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+    // Loop through cart items and display them
+    cartItems.forEach(item => {
+      const newCartItem = document.createElement('div');
+      newCartItem.className = 'cart-item';
+      newCartItem.innerHTML = `
+        <span class="fas fa-times"></span>
+        <img src="images/product-3.jpg" alt="">
+        <div class="content">
+          <h3>${item.name}</h3>
+          <div class="price">${item.price}</div>
+        </div>
+      `;
+    
+      // Append the new cart item to the cart items container
+      const cartItemsContainer = document.querySelector('.cart-items-container');
+      cartItemsContainer.insertBefore(newCartItem, cartItemsContainer.lastElementChild);
+    });
+    
+    calculateTotalPrice();
+     
+    // Function to remove an item from the shopping cart
+    function removeFromCart(productName) {
+        // Get the existing cart items from localStorage
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+      
+        // Find the index of the item to be removed
+        const itemIndex = cartItems.findIndex(item => item.name === productName);
+      console.log(itemIndex);
+        // If the item is found, remove it from the cartItems array
+        if (itemIndex !== -1) {
+          cartItems.splice(itemIndex, 1);
+      
+          // Update the cart items in localStorage
+          localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      
+          // Remove the corresponding cart item element from the DOM
+          const cartItemElement = document.querySelector(`[data-name="${productName}"]`);
+          if (cartItemElement) {
+            cartItemElement.remove();
+            calculateTotalPrice();
+          }
+        }
+      }
+      
+      // Attach click event listener to cart item icons
+      const cartItemRemove = document.querySelectorAll('.fas.fa-times');
+      
+      cartItemRemove.forEach(icon => {
+        icon.addEventListener('click', () => {
+            console.log('remove event listener');
+          const cartItem = icon.parentElement;
+          const productName = cartItem.querySelector('h3').innerText;
+      
+          removeFromCart(productName);
+          
+        });
+      });
+    
+      function calculateTotalPrice() {
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        let totalPrice = 0;
+      
+        cartItems.forEach(item => {
+          totalPrice += parseFloat(item.price);
+        });
+      
+        const totalPriceElement = document.getElementById('totalPrice');
+        totalPriceElement.innerHTML = 'Total: ' + totalPrice + ' RON';
+      }

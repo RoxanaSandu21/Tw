@@ -1,4 +1,44 @@
 
+var statusNames = ["READY TO PLANT", "READY TO HARVEST", "HARVESTED", "NEEDS ATTENTION"];
+var bgColors = ["#fcf4a3", "#c2fbd7", "#f2f2f2", "#8b0000"];
+var textColors = ["#b5a505", "green", "#7d7d7d", "#FFA8A8"];
+
+var flowers = ["Lalele", "Garoafe", "Zambile", "Clorofile"];
+
+var shadows = [
+    "rgba(181, 165, 5, .2) 0 -25px 18px -14px inset,rgba(181, 165, 5, .15) 0 1px 2px,rgba(181, 165, 5, .15) 0 2px 4px,rgba(181, 165, 5, .15) 0 4px 8px,rgba(181, 165, 5, .15) 0 8px 16px,rgba(181, 165, 5, .15) 0 16px 32px",
+    "rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px",
+    "rgba(125, 125, 125, .2) 0 -25px 18px -14px inset,rgba(125, 125, 125, .15) 0 1px 2px,rgba(125, 125, 125, .15) 0 2px 4px,rgba(125, 125, 125, .15) 0 4px 8px,rgba(125, 125, 125, .15) 0 8px 16px,rgba(125, 125, 125, .15) 0 16px 32px",
+    "rgba(255, 168, 168, .2) 0 -25px 18px -14px inset,rgba(255, 168, 168, .15) 0 1px 2px,rgba(255, 168, 168, .15) 0 2px 4px,rgba(255, 168, 168, .15) 0 4px 8px,rgba(255, 168, 168, .15) 0 8px 16px,rgba(255, 168, 168, .15) 0 16px 32px"
+];
+
+// var generateNumber = function(max) {
+//     return Math.floor(Math.random() * max);
+// }
+
+// var generateCards = function(nrOfTimes) {
+//     var temp = document.getElementById("card-template");
+//     for(var i=0; i<nrOfTimes; i++) {
+//         var clon = temp.content.cloneNode(true);
+
+//         var randomBtn = generateNumber(4);
+//         var statusBtn = clon.getElementById("statusBtn");
+
+//         clon.getElementById("title").innerText = flowers[generateNumber(4)];
+
+//         statusBtn.style.background = bgColors[randomBtn];
+//         statusBtn.style.color = textColors[randomBtn];
+//         statusBtn.innerText = statusNames[randomBtn];
+//         statusBtn.style.boxShadow = shadows[randomBtn];
+//         document.getElementById("informationWrapper").appendChild(clon);
+//     }
+
+//     if(nrOfTimes > 0) {
+//         document.getElementById("searchInput").parentNode.style.display = '';
+//     } 
+//     document.getElementById("searchInput").addEventListener("change", filterSearch);
+// }
+
 var filterSearch = function(ev) {
     var value = ev.target.value;
     var cards = document.getElementsByClassName("card");
@@ -78,7 +118,7 @@ function parseJwt(token) {
         if(!response.ok){
             if(response.status === 401){
                 console.log("Authorization refused!");
-                window.location.href = "login.html";
+                window.location.href = "index.html";
             }
             return;
         }
@@ -207,7 +247,7 @@ var openForm = function () {
 
 document.getElementById("login").onclick = () => {
     if(token === null){
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     } else{
         window.location.href = "profile.html";
     }

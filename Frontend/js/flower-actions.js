@@ -45,8 +45,6 @@ function isLoggedIn() {
      }
 }
 
-isLoggedIn();
-
 document.addEventListener("DOMContentLoaded", () => {
     var name = localStorage.getItem("name");
     var kind = localStorage.getItem("kind");
