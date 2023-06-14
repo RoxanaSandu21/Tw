@@ -13,7 +13,7 @@ import java.util.List;
 
 public class FlowerService {
 
-    public static List<Flower> findFlowersByUserMail (String userMail) throws NotFoundException {
+    public static List<Flower> findFlowersByUserMail (String userMail) {
         String query = "SELECT flower_id, name, kind, planting_date, owner_email, status FROM flowers WHERE owner_email = ?";
 
         try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
@@ -35,9 +35,9 @@ public class FlowerService {
                 allFlowers.add(flower);
             }
 
-            if (allFlowers.isEmpty()) {
-                throw new NotFoundException("Cannot find flowers for the specified email: " + userMail);
-            }
+//            if (allFlowers.isEmpty()) {
+//                throw new NotFoundException("Cannot find flowers for the specified email: " + userMail);
+//            }
 
             return allFlowers;
 
@@ -141,7 +141,7 @@ public class FlowerService {
 
     public static void saveFlower(Flower flower) {
 
-        String query = "INSERT INTO flowers (name, kind, planting_date, owner_email, status) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO flowers (name, kind, planting_date, owner_email, status) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
             

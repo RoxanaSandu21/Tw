@@ -2,6 +2,7 @@ package handlers;
 
 import api.AuthorizationApi;
 import api.FlowerApi;
+import api.SensorsApi;
 import api.UserApi;
 import authorization.AuthenticationRequest;
 import authorization.AuthorizationController;
@@ -11,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import controllers.FlowerController;
+import controllers.SensorsController;
 import controllers.UserController;
 import exceptions.AuthenticationException;
 import exceptions.AuthorizationException;
@@ -20,6 +22,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import models.Flower;
+import models.FlowerActualSpecs;
 import models.FlowerListed;
 import models.User;
 import utils.DateDeserializer;
@@ -40,13 +43,14 @@ public class RequestHandler implements HttpHandler {
     private static final String SECRET_KEY = KeyGenerator.getSecretKey();
     private final FlowerApi flowerApi;
     private final AuthorizationApi authorizationApi;
-
     private final UserApi userApi;
+    private final SensorsApi sensorsApi;
 
     public RequestHandler() {
         flowerApi = new FlowerController();
         authorizationApi = new AuthorizationController();
         userApi = new UserController();
+        sensorsApi = new SensorsController();
     }
 
     @Override
@@ -113,6 +117,8 @@ public class RequestHandler implements HttpHandler {
 
                 //User role and subject obtained from jwt payload
                 String payloadUserMail = claims.getSubject();
+
+                //TODO: authorization by role!!
                 String payloadUserRole = (String) claims.get("role");
 
 
@@ -122,7 +128,12 @@ public class RequestHandler implements HttpHandler {
                         Flower flower = flowerApi.getFlower(flowerId);
                         response = toJson(flower);
                         statusCode = 200;
-                    } else if(method.equals("GET") && path.matches("/api/flowers/all")){
+                    } else if (method.equals("GET") && path.matches("/api/sensorValuesForFlower/\\d+")) {
+                        int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
+                        FlowerActualSpecs flowerActualSpecs = sensorsApi.getFlowerActualSpecs(flowerId);
+                        response = toJson(flowerActualSpecs);
+                        statusCode = 200;
+                    }else if(method.equals("GET") && path.matches("/api/flowers/all")){
                         List<Flower> flowers = flowerApi.getFlowers();
                         response = toJson(flowers);
                         statusCode = 200;

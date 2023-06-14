@@ -19,7 +19,7 @@ public class FlowerController implements FlowerApi {
     }
 
     @Override
-    public List<Flower> getFlowersByUserEmail(String email) throws NotFoundException {
+    public List<Flower> getFlowersByUserEmail(String email) {
         return FlowerService.findFlowersByUserMail(email);
     }
 

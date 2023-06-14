@@ -18,7 +18,7 @@ public interface FlowerApi {
 
     @GET
     @Path("/flowersByEmail/{email}")
-    List<Flower> getFlowersByUserEmail (@PathParam("email") String email) throws NotFoundException;
+    List<Flower> getFlowersByUserEmail (@PathParam("email") String email);
 
     @GET
     @Path("/flowers/all")
