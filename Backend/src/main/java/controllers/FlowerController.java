@@ -2,16 +2,29 @@ package controllers;
 
 import api.FlowerApi;
 import enums.FlowerStatusEnum;
+import exceptions.EmailSenderException;
 import exceptions.NotFoundException;
 import handlers.Response;
 import models.Flower;
 import models.FlowerListed;
+import models.FlowerRequiredSpecs;
 import services.FlowerService;
+import services.FlowerSpecService;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public class FlowerController implements FlowerApi {
+
+    @Override
+    public FlowerRequiredSpecs getFlowerSpec(String name) throws NotFoundException {
+        FlowerRequiredSpecs flowerRequiredSpecs = FlowerSpecService.getFlowerSpecByName(name);
+
+        if (flowerRequiredSpecs == null) {
+            throw new NotFoundException(String.format("There are no specs data for flower with name: %s", name));
+        }
+        return flowerRequiredSpecs;
+    }
 
     @Override
     public List<FlowerListed> getFlowersListed() throws NotFoundException {
