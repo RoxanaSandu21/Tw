@@ -3,8 +3,11 @@ package controllers;
 import api.UserApi;
 import exceptions.NotFoundException;
 import handlers.Response;
+import models.FlowerFavoriteType;
 import models.User;
 import services.UserService;
+
+import java.util.List;
 
 public class UserController implements UserApi {
     @Override
@@ -33,5 +36,36 @@ public class UserController implements UserApi {
         UserService.updateUser(user);
 
         return Response.ok();
+    }
+
+    @Override
+    public Response deleteUser(String email) throws NotFoundException {
+        if (UserService.findUserByEmail(email) == null) {
+            throw new NotFoundException(String.format("User with email: %s can't be found", email));
+        }
+
+        UserService.deleteUser(email);
+        return Response.ok();
+    }
+
+    @Override
+    public Response addFlowerOnWishlist(String flowerName, String email) {
+        if (!UserService.isFlowerAddedToWishList(flowerName, email)) {
+            UserService.addFlowerOnWishList(flowerName, email);
+        }
+        return Response.ok();
+    }
+
+    @Override
+    public Response removeFlowerFromWishlist(String flowerName, String email) {
+        if (UserService.isFlowerAddedToWishList(flowerName, email)) {
+            UserService.removeFlowerFromWishList(flowerName, email);
+        }
+        return Response.ok();
+    }
+
+    @Override
+    public List<FlowerFavoriteType> getUserFavoriteFlowers(String email) {
+        return UserService.getFavoriteFlowersForUser(email);
     }
 }
