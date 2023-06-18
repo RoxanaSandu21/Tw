@@ -1,70 +1,7 @@
-
-var statusNames = ["READY TO PLANT", "READY TO HARVEST", "HARVESTED", "NEEDS ATTENTION"];
-var bgColors = ["#fcf4a3", "#c2fbd7", "#f2f2f2", "#8b0000"];
-var textColors = ["#b5a505", "green", "#7d7d7d", "#FFA8A8"];
-
-var flowers = ["Lalele", "Garoafe", "Zambile", "Clorofile"];
-
-var shadows = [
-    "rgba(181, 165, 5, .2) 0 -25px 18px -14px inset,rgba(181, 165, 5, .15) 0 1px 2px,rgba(181, 165, 5, .15) 0 2px 4px,rgba(181, 165, 5, .15) 0 4px 8px,rgba(181, 165, 5, .15) 0 8px 16px,rgba(181, 165, 5, .15) 0 16px 32px",
-    "rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px",
-    "rgba(125, 125, 125, .2) 0 -25px 18px -14px inset,rgba(125, 125, 125, .15) 0 1px 2px,rgba(125, 125, 125, .15) 0 2px 4px,rgba(125, 125, 125, .15) 0 4px 8px,rgba(125, 125, 125, .15) 0 8px 16px,rgba(125, 125, 125, .15) 0 16px 32px",
-    "rgba(255, 168, 168, .2) 0 -25px 18px -14px inset,rgba(255, 168, 168, .15) 0 1px 2px,rgba(255, 168, 168, .15) 0 2px 4px,rgba(255, 168, 168, .15) 0 4px 8px,rgba(255, 168, 168, .15) 0 8px 16px,rgba(255, 168, 168, .15) 0 16px 32px"
-];
-
-// var generateNumber = function(max) {
-//     return Math.floor(Math.random() * max);
-// }
-
-// var generateCards = function(nrOfTimes) {
-//     var temp = document.getElementById("card-template");
-//     for(var i=0; i<nrOfTimes; i++) {
-//         var clon = temp.content.cloneNode(true);
-
-//         var randomBtn = generateNumber(4);
-//         var statusBtn = clon.getElementById("statusBtn");
-
-//         clon.getElementById("title").innerText = flowers[generateNumber(4)];
-
-//         statusBtn.style.background = bgColors[randomBtn];
-//         statusBtn.style.color = textColors[randomBtn];
-//         statusBtn.innerText = statusNames[randomBtn];
-//         statusBtn.style.boxShadow = shadows[randomBtn];
-//         document.getElementById("informationWrapper").appendChild(clon);
-//     }
-
-//     if(nrOfTimes > 0) {
-//         document.getElementById("searchInput").parentNode.style.display = '';
-//     } 
-//     document.getElementById("searchInput").addEventListener("change", filterSearch);
-// }
-
-var filterSearch = function(ev) {
-    var value = ev.target.value;
-    var cards = document.getElementsByClassName("card");
-
-    for(var i=0; i<cards.length; i++) {
-        var card = cards[i];
-
-        if(card.id.toUpperCase() === "add-card".toUpperCase()) {
-            continue;
-        }
-        
-        if(card.innerHTML.toUpperCase().includes(value.toUpperCase())) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
-    }
-}
-
-// setTimeout(() => { generateCards(32); }, 10);
-
 function checkValid(){
     const dropDownOption = document.getElementById("name");
     const kind = document.getElementById("kind");
     const date = document.getElementById("date");
-    let valid = true;
     if(dropDownOption.value == "choose_option"){
         document.getElementById("dropDownErrorFlower").textContent = ("Please choose an option");
         valid = false;
@@ -84,7 +21,7 @@ function checkValid(){
         valid = false;
     }
     else{
-        document.getElementById("dateError").textContent = ("");
+       document.getElementById("dateError").textContent = ("");
     }
 }
 
@@ -105,6 +42,11 @@ function parseJwt(token) {
 
   document.addEventListener("DOMContentLoaded",async (event) => {
     event.preventDefault();
+    var today = new Date().toISOString().split('T')[0]; // Obțineți data de astăzi în formatul specificat
+
+    var dateInput = document.getElementById("date");
+    dateInput.setAttribute("max", today);
+
     var apiUrl = 'http://127.0.0.1:8080/api/flowersByEmail/{email}';
     var userEmail = parseJwt(token).sub.toLowerCase();
     var url = apiUrl.replace("{email}", userEmail);
@@ -136,9 +78,6 @@ function parseJwt(token) {
           
             const soiElement = cardClone.querySelector('.information p:nth-child(2)');
             soiElement.textContent = 'Kind: ' + json.kind;
-          
-            const irigareElement = cardClone.querySelector('.information p:nth-child(3)');
-            irigareElement.textContent = 'Humidity: Good';
 
             var statusBtn = cardClone.getElementById("statusBtn");
             statusBtn.textContent = json.status;
@@ -152,10 +91,12 @@ function parseJwt(token) {
               const boxHumidity = 'Good';
           
               // Poți efectua acțiuni cu datele preluate, cum ar fi afișarea lor în consolă
+              localStorage.setItem("id", json.id);
               localStorage.setItem("name", boxTitle);
               localStorage.setItem("date", boxDate);
               localStorage.setItem("kind", boxKind);
               localStorage.setItem("humidity", boxHumidity);
+              localStorage.setItem("status",json.status);
               window.location.href = "flowerInfoActions.html";
             });
           
@@ -163,6 +104,14 @@ function parseJwt(token) {
           });
           
   });
+
+  function getFirstTwoWords(str) {
+    const words = str.split(' ');
+  
+    const firstTwoWords = words.slice(0, 2);
+  
+    return firstTwoWords.join(' ');
+  }
 
 //   window.onload = function(){
 //   Caman(img, function() {
@@ -226,11 +175,18 @@ addFlowerForm.addEventListener("submit", async (event) => {
             }
             return;
         }
-        setTimeout(function() {
-            alert("Flower added succefully!");
-            location.reload();
-          }, 1000);    
+        toggleAdd();
 })
+
+var counter = 0;
+function toggleAdd(){
+    counter++;
+    var blur = document.getElementById('blur');
+    blur.classList.toggle('active');
+    var popupAdd = document.getElementById('popupAddFlower');
+    popupAdd.classList.toggle('active');
+    addFlowerForm.style.display = "none";
+}
 
 
 
@@ -253,4 +209,249 @@ document.getElementById("login").onclick = () => {
     }
 }
 
+let navbar = document.querySelector('.navbar');
 
+document.querySelector('#menu-btn').onclick = () =>{
+    navbar.classList.toggle('active');
+    cartItem.classList.remove('active');
+    favoriteItem.classList.remove('active');
+}
+
+let cartItem = document.querySelector('.cart-items-container');
+
+document.querySelector('#cart-btn').onclick = () =>{
+    cartItem.classList.toggle('active');
+    navbar.classList.remove('active');
+    favoriteItem.classList.remove('active');
+}
+
+let favoriteItem = document.querySelector('.favorite-items-container');
+
+document.querySelector('#favorites').onclick = () =>{
+    favoriteItem.classList.toggle('active');
+    navbar.classList.remove('active');
+    cartItem.classList.remove('active');
+}
+
+window.onscroll = () =>{
+    navbar.classList.remove('active');
+    cartItem.classList.remove('active');
+    favoriteItem.classList.remove('active');
+}
+
+
+const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+cartItems.forEach(item => {
+  const newCartItem = document.createElement('div');
+  newCartItem.className = 'cart-item';
+  newCartItem.innerHTML = `
+    <span class="fas fa-times"></span>
+    <img src="images/${item.name.split(' ')[0]}.jpg" alt="">
+    <div class="content">
+      <h3>${item.name}</h3>
+      <div class="price">${item.price}</div>
+    </div>
+  `;
+
+  const cartItemsContainer = document.querySelector('.cart-items-container');
+  cartItemsContainer.insertBefore(newCartItem, cartItemsContainer.lastElementChild);
+});
+
+calculateTotalPrice();
+ 
+function removeFromCart(productName) {
+  let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+  const itemIndex = cartItems.findIndex(item => item.name === productName);
+console.log(itemIndex);
+  if (itemIndex !== -1) {
+    cartItems.splice(itemIndex, 1);
+
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+    const cartItemElement = document.querySelector(`[data-name="${productName}"]`);
+    if (cartItemElement) {
+      cartItemElement.remove();
+      calculateTotalPrice();
+    }
+  }
+}
+
+const cartItemRemove = document.querySelectorAll('.fas.fa-times');
+
+cartItemRemove.forEach(icon => {
+  icon.addEventListener('click', () => {
+      console.log('remove event listener');
+    const cartItem = icon.parentElement;
+    const productName = cartItem.querySelector('h3').innerText;
+
+    removeFromCart(productName);
+    refreshCart();
+  });
+});
+
+function calculateTotalPrice() {
+  const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+  let totalPrice = 0;
+
+  cartItems.forEach(item => {
+    totalPrice += parseFloat(item.price);
+  });
+
+  const totalPriceElement = document.getElementById('totalPrice');
+  totalPriceElement.innerHTML = 'Total: ' + totalPrice + ' RON';
+}
+
+
+function refreshCart() {
+  const cartItemsContainer = document.querySelector('.cart-items-container');
+
+  cartItemsContainer.innerHTML = `<div id="totalPrice"></div>
+    <a href="checkOut.html" class="btn">Checkout now</a>`;
+
+  const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+  cartItems.forEach(item => {
+    const newCartItem = document.createElement('div');
+    newCartItem.className = 'cart-item';
+    newCartItem.innerHTML = `
+      <span class="fas fa-times"></span>
+      <img src="images/${item.name.split(' ')[0]}.jpg" alt="">
+      <div class="content">
+        <h3>${item.name}</h3>
+        <div class="price">${item.price}</div>
+        
+      </div>
+    `;
+    
+    cartItemsContainer.insertBefore(newCartItem, cartItemsContainer.lastElementChild);
+  });
+
+  
+  calculateTotalPrice();
+  const cartItemRemove = document.querySelectorAll('.fas.fa-times');
+  cartItemRemove.forEach(icon => {
+    icon.addEventListener('click', () => {
+      const cartItem = icon.parentElement;
+      const productName = cartItem.querySelector('h3').innerText;
+      
+      removeFromCart(productName);
+      refreshCart(); 
+    });
+  });
+}
+
+
+/////favorite
+loadFavoriteItems();
+
+async function loadFavoriteItems() {
+  let token = localStorage.getItem('token');
+
+  if (token === null) {
+      window.location.href = 'index.html'; 
+     return;
+  }
+
+
+ 
+  const response2 = await fetch(`http://127.0.0.1:8080/api/users/getUserFavoriteFlowers`, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      }
+  });
+
+  if (!response2.ok) {
+      console.log('An error occurred:', response2.statusText);
+      return;
+  }
+
+  const data = await response2.json();
+  console.log(data);
+
+
+ data.forEach(item => {
+  const newFavoriteItem = document.createElement('div');
+  newFavoriteItem.className = 'favorite-item';
+  newFavoriteItem.innerHTML = `
+    <span class="fas fa-times"></span>
+    <img src="images/${item.flowerName}.jpg" alt="">
+    <div class="content">
+      <h3>${item.flowerName}</h3>
+      
+    </div>
+  `;
+
+  const favoriteItemsContainer = document.querySelector('.favorite-items-container');
+  favoriteItemsContainer.insertBefore(newFavoriteItem, favoriteItemsContainer.lastElementChild);
+});
+attachFavoriteItemEventListeners();
+}
+ 
+async function removeFromFavorite(productName) {
+  let token = localStorage.getItem('token');
+
+  if (token === null) {
+      window.location.href = 'index.html'; 
+     return;
+  }
+  var apiUrl = 'http://127.0.0.1:8080/api/users/removeFlowerFromWishList/{flowerName}';
+  var url = apiUrl.replace("{flowerName}", productName);
+  var response1 = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+  });
+  if (!response1.ok) {
+    if (response1.status === 401) {
+      console.log("Authorization refused!");
+      window.location.href = "index.html";
+    }
+    return;
+  }
+  //var data = await response1();
+  //window.location.href = "index.html";
+
+
+}
+
+const favoriteItemRemove = document.querySelectorAll('.favorite-item .fas.fa-times');
+
+favoriteItemRemove.forEach(icon => {
+  icon.addEventListener('click', () => {
+      console.log('remove from favorites');
+    const favoriteItem = icon.parentElement;
+    const productName = favoriteItem.querySelector('h3').innerText;
+
+    removeFromFavorite(productName);
+    refreshFavorite();
+  });
+});
+
+function refreshFavorite() {
+  const favoriteItemsContainer = document.querySelector('.favorite-items-container');
+
+  favoriteItemsContainer.innerHTML = ` `;
+
+  loadFavoriteItems();
+}
+
+function attachFavoriteItemEventListeners() {
+  const favoriteItemRemove = document.querySelectorAll('.favorite-item .fas.fa-times');
+
+  favoriteItemRemove.forEach(icon => {
+    icon.addEventListener('click', () => {
+      console.log('remove from favorites');
+      const favoriteItem = icon.parentElement;
+      const productName = favoriteItem.querySelector('h3').innerText;
+
+      removeFromFavorite(productName);
+      refreshFavorite();
+    });
+  });
+}

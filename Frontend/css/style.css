@@ -203,6 +203,56 @@ section{
     text-align: center;
 }
 
+
+.header .favorite-items-container{
+    position: absolute;
+    top:100%; right: -100%;
+    height: calc(100vh - 9.5rem);
+    width: 35rem;
+    background: #fff;
+    padding:0 1.5rem;
+}
+
+.header .favorite-items-container.active{
+    right: 0;
+}
+
+.header .favorite-items-container .favorite-item{
+    position: relative;
+    margin:2rem 0;
+    display: flex;
+    align-items: center;
+    gap:1.5rem;
+}
+
+.header .favorite-items-container .favorite-item .fa-times{
+    position: absolute;
+    top:1rem; right: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--black);
+}
+
+.header .favorite-items-container .favorite-item .fa-times:hover{
+    color:var(--main-color);
+}
+
+.header .favorite-items-container .favorite-item img{
+    height: 7rem;
+}
+
+.header .favorite-items-container .favorite-item .content h3{
+    font-size: 2rem;
+    color:var(--black);
+    padding-bottom: .5rem;
+}
+
+.header .favorite-items-container .btn{
+    width: 100%;
+    text-align: center;
+}
+
+
 #totalPrice {
     font-size: 18px;
     font-weight: bold;
@@ -335,6 +385,11 @@ section{
     margin:.3rem;
 }
 
+.products .box-container .box .icons a.main-color {
+    background: var(--main-color);
+  }
+  
+
 .products .box-container .box .icons a:hover{
     background:var(--main-color);
 }
@@ -459,7 +514,16 @@ input[type=name], select {
     box-sizing: border-box;
   }
 
-input[type=email], select {
+.login input[type=email], select {
+    width: 100%;
+    padding: 15px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+.register input[type=email], select {
     width: 100%;
     padding: 15px 20px;
     margin: 8px 0;
@@ -477,7 +541,7 @@ input[type=email], select {
     border-radius: 4px;
     box-sizing: border-box;
   }
-  input[type=tel], select {
+.register  input[type=tel], select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -592,7 +656,10 @@ input[type=email], select {
   .profile label {
     display: block;
     font-weight: bold;
-    margin-bottom: 1%;
+    margin-bottom: 1rem;
+    font-size:1em; color:#222; letter-spacing:1px;
+    font-family:"Playfair Display", serif; font-weight:200;
+    margin-top: 1rem;
   }
   .profile h2{
     font-size:3.5em; text-transform:uppercase; color:#222;padding-top: 1em; letter-spacing:1px;
@@ -608,12 +675,19 @@ input[type=email], select {
     font-size:3em; text-transform:uppercase; color:#222;padding-top: 1em; letter-spacing:1px;
     font-family:"Playfair Display", serif; font-weight:400;
   }
+
+  .profile h5{
+    font-size:2em; color:#222; letter-spacing:1px;
+    font-family:"Playfair Display", serif; font-weight:200;
+    
+  }
   
-  .profile input[type="text"],
-  .profile input[type="email"],
-  .profile input[type="date"],
-  .profile input[type="tel"],
-  .profile textarea {
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="tel"],
+  input[type="number"],
+  textarea {
     border:0.1em solid #ccc;
     padding: 1em;
     font-size: 1.3em;
@@ -633,16 +707,17 @@ input[type=email], select {
   }
 
   .buttonEdit {
+    margin-top: 10%;
     transition: all .5s ease;
     color: #fff;
-    height: 10%;
+    height: 3em;
     width: 5em;
     border: 3px solid white;
     font-family:'Montserrat', sans-serif;
     text-transform: uppercase;
     text-align: center;
     line-height: 1;
-    font-size: 2em;
+    font-size: 1.5em;
     background-color : transparent;
     padding: 10px;
     outline: none;
@@ -654,7 +729,7 @@ input[type=email], select {
     }
 
     .buttonFlowerStatus{
-        float:right;
+        margin-top: 10%;
         transition: all .5s ease;
         color: #1cc7ea;
         height: 3em;
@@ -676,7 +751,7 @@ input[type=email], select {
     }
 
     .buttonLogOut{
-        float:right;
+        margin-top: 10%;
         transition: all .5s ease;
         color: red;
         height: 3em;
@@ -697,6 +772,49 @@ input[type=email], select {
         background-color: red;
     }
 
+    .buttonDeleteAccount{
+        margin-top: 10%;
+        transition: all .5s ease;
+        color: #991414;
+        height: 3em;
+        width: 12em;
+        border: 3px solid #991414;
+        font-family:'Montserrat', sans-serif;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 1;
+        font-size: 1.5em;
+        background-color : transparent;
+        padding: 10px;
+        outline: none;
+        border-radius: 4px;
+    }
+    .buttonDeleteAccount:hover {
+        color: #fff;
+        background-color: #991414;
+    }
+
+    .buttonConfirm {
+        margin-top: 10%;
+        transition: all .5s ease;
+        color: #1ccc16;
+        height: 3em;
+        width: 5em;
+        border: 3px solid #1ccc16;
+        font-family:'Montserrat', sans-serif;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 1;
+        font-size: 1.5em;
+        background-color : transparent;
+        padding: 10px;
+        outline: none;
+        border-radius: 4px;
+        }
+        .buttonConfirm:hover {
+            color: #fff;
+            background-color: #1ccc16;
+        }
 
 
   /* profile */
@@ -899,9 +1017,106 @@ input[type=email], select {
     color:var(--main-color);
 }
 
+.container#blur.active{
+    filter:blur(20px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.form-container#addFlowerForm.active{
+    filter:blur(20px);
+    pointer-events: none;
+    user-select: none;
+}
+
+#popup{
+    text-align: center;
+    position: fixed;
+    top:40%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width: 600px;
+    padding: 50px;
+    box-shadow: 0 5px 30px rgba(0,0,0,.30);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+}
+
+#popup.active{
+    top:50%;
+    visibility: visible;
+    opacity:1;
+    transition: 0.5s;
+}
+
+#popupAddFlower{
+    text-align: center;
+    position: fixed;
+    top:40%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width: 600px;
+    padding: 50px;
+    box-shadow: 0 5px 30px rgba(0,0,0,.30);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+}
+
+#popupAddFlower.active{
+    top:50%;
+    visibility: visible;
+    opacity:1;
+    transition: 0.5s;
+}
+
+#popupEdit{
+    text-align: center;
+    position: fixed;
+    top:40%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width: 600px;
+    padding: 50px;
+    box-shadow: 0 5px 30px rgba(0,0,0,.30);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+}
+
+#popupEdit.active{
+    top:50%;
+    visibility: visible;
+    opacity:1;
+    transition: 0.5s;
+}
 
 
+#deletePopup{
+    text-align: center;
+    position: fixed;
+    top:40%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width: 600px;
+    padding: 50px;
+    box-shadow: 0 5px 30px rgba(0,0,0,.30);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+}
 
+#deletePopup.active{
+    top:50%;
+    visibility: visible;
+    opacity:1;
+    transition: 0.5s;
+}
 
 
 
@@ -1130,7 +1345,7 @@ hr.solid {
 
 .overlay {
     background: #FFFFFF77;
-    filter: blur(100px);
+    filter: blur(20px);
     position: absolute;
     left:0;
     right:0;
@@ -1299,8 +1514,8 @@ label {
 }
 
 .control-panel .action-button {
-    width: 4em;
-    background-color: #007bff;
+    width: 100%;
+    background-color: #33b249;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -1314,7 +1529,7 @@ label {
 }
 
 .control-panel .action-button:hover {
-    background-color: #0069d9;
+    background-color: #5dbea3;
 }
 
 .control-panel .toolbar {
@@ -1327,6 +1542,7 @@ label {
 .control-panel .cp-info {
     overflow-x: scroll;
     height: 30em;
+    width: 100%;
     border-radius: 0.5em;
     display: flex;
     background: antiquewhite;
@@ -1346,6 +1562,8 @@ label {
 }
 
 .control-panel .photos {
+    overflow-x: scroll;
+    width: 50;
     height: 14em;
     display: flex;
     flex-direction: row;
@@ -1353,7 +1571,6 @@ label {
     justify-content: flex-start;
     align-items: center;
     float: left;
-    overflow-y: scroll
 }
 
 .cp-photo {
