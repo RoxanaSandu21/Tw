@@ -85,6 +85,8 @@ loginForm.addEventListener('submit', async (event) => {
         }
     }catch(error){
         console.error("An error has occured", error.message);
+        let error1 = document.getElementById("passwordErrorLogin");
+            error1.textContent = ("Email or password invalid!");
     }
 });
 
