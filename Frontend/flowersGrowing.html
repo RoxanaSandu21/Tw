@@ -4,15 +4,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Gardening</title>
+    <title>Web gardening</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
     <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
-    <!-- header section starts  -->
+    
+<!-- header section starts  -->
 
 <header class="header">
 
-    <a href="#" class="logo">
+    <a href="home.html" class="logo">
         <img src="images/logo2.jpg" alt="">
     </a>
 
@@ -27,7 +34,7 @@
     <div class="icons">
         <div class="fas fa-heart" id="favorites"></div>
         <div class="fas fa-shopping-cart" id="cart-btn"></div>
-        <div class="fas fa-solid fa-user" id="account"></div>
+        <div class="fas fa-solid fa-user" id="login"></div>
 	  <div class="fas fa-bars" id="menu-btn"></div>
     </div>
 
@@ -37,33 +44,46 @@
     </div>
 
     <div class="cart-items-container">
+        
         <div id="totalPrice"></div>
-        <a href="#" class="btn">checkout now</a>
+        <a href="checkOut.html" class="btn">Checkout now</a>
     </div>
-    <div class="favorite-items-container"></div>
 
+    <div class="favorite-items-container"></div>
 
 </header>
 
 <!-- header section ends -->
 
+<!-- products section starts  -->
 
-<section class="done" id="done">
 
-    <h1 class="heading"> <span>checkOut</span></h1>
+<section class="products" id="products">
 
-    <div class="home">
-          <div class="centered">
-            <h1>Your order has been placed. Thank you!</h1>
-		</div>
+    <h1 class="heading"> Coming <span>soon</span> </h1>
+
+    <div class="box-container">
+
+        
+
+
     </div>
 
 </section>
 
+<!-- footer section starts  -->
 
+<section class="footer">
+
+
+    <div class="credit">created by <span>Sandu Roxana-Alexandra, Mihai Dragos, Cerbu Cristi-Madalin</span> | all rights reserved</div>
+
+</section>
+
+<!-- footer section ends -->
 
 <!-- custom js file link  -->
-
+<script src="js/flowersGrowing.js"></script>
 
 </body>
 </html>
