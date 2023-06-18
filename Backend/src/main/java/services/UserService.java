@@ -1,9 +1,11 @@
 package services;
 
 import dataprovider.Data;
+import exceptions.EmailSenderException;
 import models.Flower;
 import models.FlowerFavoriteType;
 import models.User;
+import utils.EmailSender;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -150,5 +152,48 @@ public class UserService {
             throw new RuntimeException(e);
         }
         return favoriteFlowers;
+    }
+
+    public static void notifyUsers(String flowerName)  {
+        List<String> usersMails = getUsersToBeNotified(flowerName);
+
+        for (String mail : usersMails) {
+            try {
+                EmailSender.sendEmail(mail, flowerName);
+            } catch (EmailSenderException e) {
+                System.out.printf("There was a problem with sending email to: %s%n", mail);
+            }
+        }
+    }
+
+    private static List<String> getUsersToBeNotified (String flowerName) {
+        String query = "SELECT email FROM favorites where flower_name = ?";
+        List<String> users;
+
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
+            statement.setString(1, flowerName);
+
+            ResultSet resultSet = statement.executeQuery();
+            users = new LinkedList<>();
+
+            while (resultSet.next()) {
+                users.add(resultSet.getString("email"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return users;
+    }
+
+    private static void deleteAllItemsFromFavorites (String email) {
+        String query = "DELETE FROM favorites where email =?";
+
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
+            statement.setString(1, email);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

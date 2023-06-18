@@ -17,7 +17,7 @@ import java.util.Date;
 
 public class AuthorizationService {
 
-    private static final String SECRET_KEY = KeyGenerator.getSecretKey();
+    private static final String SECRET_KEY = KeyGenerator.getInstance().getSecretKey();
     private static final long JWT_EXPIRATION_TIME = 3600000;//1 hour
 
     public static void saveUser (RegisterRequest registerRequest) throws RegisterConflictException, NoSuchAlgorithmException {

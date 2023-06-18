@@ -2,6 +2,7 @@ package services;
 
 import dataprovider.Data;
 import enums.FlowerStatusEnum;
+import exceptions.EmailSenderException;
 import exceptions.NotFoundException;
 import models.Flower;
 import models.FlowerListed;
@@ -34,10 +35,6 @@ public class FlowerService {
                 flower.setStatus(resultSet.getString("status"));
                 allFlowers.add(flower);
             }
-
-//            if (allFlowers.isEmpty()) {
-//                throw new NotFoundException("Cannot find flowers for the specified email: " + userMail);
-//            }
 
             return allFlowers;
 
@@ -178,6 +175,10 @@ public class FlowerService {
     }
 
     public static void deleteFlower(Flower flower) {
+        //These should be done as flower_id is foreign kei in flower_sales and actions
+        deleteFlowerFromSales(flower.getId());
+        ActionsService.deleteActionsTookOnFlower(flower.getId());
+
 
         String query = "DELETE FROM flowers WHERE flower_id = ?";
 
@@ -202,6 +203,8 @@ public class FlowerService {
         updateFlower(flower);
 
         insertListedFlower(id, price);
+
+        UserService.notifyUsers(flower.getName());
     }
 
     public static void sellFlower (int id, String sellerMail) throws NotFoundException {
@@ -216,6 +219,8 @@ public class FlowerService {
         updateFlower(flower);
 
         updateSellInformation(id, sellerMail);
+
+        UserService.removeFlowerFromWishList(flower.getName(), sellerMail);
     }
 
     private static void insertListedFlower (int id, BigDecimal price) {
@@ -225,7 +230,7 @@ public class FlowerService {
 
             statement.setInt(1, id);
             statement.setBigDecimal(2, price);
-            statement.setDate(3, new Date(System.currentTimeMillis()));
+            statement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
             statement.setNull(4, Types.VARCHAR);
             statement.setNull(5, Types.DATE);
 
@@ -250,5 +255,18 @@ public class FlowerService {
         }
 
     }
+
+    private static void deleteFlowerFromSales (int id) {
+        String query = "DELETE FROM flower_sales WHERE flower_id =?";
+
+        try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
+            statement.setInt(1, id);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }
