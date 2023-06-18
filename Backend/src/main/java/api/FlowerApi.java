@@ -5,6 +5,7 @@ import exceptions.NotFoundException;
 import handlers.Response;
 import models.Flower;
 import models.FlowerListed;
+import models.FlowerRequiredSpecs;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,6 +13,9 @@ import java.util.List;
 public interface FlowerApi {
 
 
+    @GET
+    @Path("flowersSpec/{name}")
+    FlowerRequiredSpecs getFlowerSpec (@PathParam("name") String name) throws NotFoundException;
     @GET
     @Path("flowers/listed")
     List<FlowerListed> getFlowersListed() throws NotFoundException;
