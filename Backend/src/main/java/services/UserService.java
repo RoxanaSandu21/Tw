@@ -77,11 +77,19 @@ public class UserService {
         }
     }
 
-    public static void deleteUser(User user) {
+    public static void deleteUser(String email) {
+        //These should be done as user email is foreign key in flowers and favorites
+        deleteAllItemsFromFavorites(email);
+
+        List<Flower> userFlowers = FlowerService.findFlowersByUserMail(email);
+        for (Flower flower : userFlowers) {
+            FlowerService.deleteFlower(flower);
+        }
+
         String query = "DELETE FROM users WHERE email = ?";
 
         try (PreparedStatement statement = Data.getInstance().getConnection().prepareStatement(query)) {
-            statement.setString(1, user.getEmail());
+            statement.setString(1, email);
 
             statement.executeUpdate();
         } catch (SQLException e) {
