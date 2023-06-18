@@ -1029,37 +1029,40 @@ input[type=name], select {
     user-select: none;
 }
 
-#popup{
+#popup {
     text-align: center;
     position: fixed;
-    top:40%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    width: 600px;
-    padding: 50px;
-    box-shadow: 0 5px 30px rgba(0,0,0,.30);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px; /* Setăm o lățime maximă pentru a păstra conținutul într-un interval rezonabil */
+    padding: 5%;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
     background: #fff;
     visibility: hidden;
     opacity: 0;
     transition: 0.5s;
 }
 
-#popup.active{
-    top:50%;
+#popup.active {
+    top: 50%;
     visibility: visible;
-    opacity:1;
+    opacity: 1;
     transition: 0.5s;
 }
+
 
 #popupAddFlower{
     text-align: center;
     position: fixed;
-    top:40%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    width: 600px;
-    padding: 50px;
-    box-shadow: 0 5px 30px rgba(0,0,0,.30);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px; /* Setăm o lățime maximă pentru a păstra conținutul într-un interval rezonabil */
+    padding: 5%;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
     background: #fff;
     visibility: hidden;
     opacity: 0;
@@ -1067,21 +1070,22 @@ input[type=name], select {
 }
 
 #popupAddFlower.active{
-    top:50%;
+    top: 50%;
     visibility: visible;
-    opacity:1;
+    opacity: 1;
     transition: 0.5s;
 }
 
 #popupEdit{
     text-align: center;
     position: fixed;
-    top:40%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    width: 600px;
-    padding: 50px;
-    box-shadow: 0 5px 30px rgba(0,0,0,.30);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    padding: 5%;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
     background: #fff;
     visibility: hidden;
     opacity: 0;
@@ -1099,12 +1103,13 @@ input[type=name], select {
 #deletePopup{
     text-align: center;
     position: fixed;
-    top:40%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    width: 600px;
-    padding: 50px;
-    box-shadow: 0 5px 30px rgba(0,0,0,.30);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px; /* Setăm o lățime maximă pentru a păstra conținutul într-un interval rezonabil */
+    padding: 5%;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
     background: #fff;
     visibility: hidden;
     opacity: 0;
@@ -1188,6 +1193,15 @@ input[type=name], select {
         font-size: 1.5rem;
     }
 
+}
+
+@media only screen and (max-width: 600px) {
+    /* Modificări pentru ecrane cu lățime mai mică sau egală cu 600px */
+    #popupAddFlower {
+        width: 90%;
+        max-width: none;
+        padding: 10%;
+    }
 }
 
 @media (max-width:450px){
