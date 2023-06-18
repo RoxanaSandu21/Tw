@@ -1,9 +1,6 @@
 package handlers;
 
-import api.AuthorizationApi;
-import api.FlowerApi;
-import api.SensorsApi;
-import api.UserApi;
+import api.*;
 import authorization.AuthenticationRequest;
 import authorization.AuthorizationController;
 import authorization.RegisterRequest;
@@ -11,20 +8,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import controllers.FlowerActionsController;
 import controllers.FlowerController;
 import controllers.SensorsController;
 import controllers.UserController;
-import exceptions.AuthenticationException;
-import exceptions.AuthorizationException;
-import exceptions.NotFoundException;
-import exceptions.RegisterConflictException;
+import exceptions.*;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import models.Flower;
-import models.FlowerActualSpecs;
-import models.FlowerListed;
-import models.User;
+import models.*;
 import utils.DateDeserializer;
 import utils.KeyGenerator;
 
@@ -40,17 +32,19 @@ import java.util.stream.Collectors;
 
 
 public class RequestHandler implements HttpHandler {
-    private static final String SECRET_KEY = KeyGenerator.getSecretKey();
+    private static final String SECRET_KEY = KeyGenerator.getInstance().getSecretKey();
     private final FlowerApi flowerApi;
     private final AuthorizationApi authorizationApi;
     private final UserApi userApi;
     private final SensorsApi sensorsApi;
 
+    private final FlowerActionsApi flowerActionsApi;
     public RequestHandler() {
         flowerApi = new FlowerController();
         authorizationApi = new AuthorizationController();
         userApi = new UserController();
         sensorsApi = new SensorsController();
+        flowerActionsApi = new FlowerActionsController();
     }
 
     @Override
@@ -59,8 +53,9 @@ public class RequestHandler implements HttpHandler {
         if (exchange.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
             // Set CORS headers for preflight request
             exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-            exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT");
+            exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
             exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+            exchange.getResponseHeaders().add("Access-Control-Expose-Headers", "Authorization");
             exchange.sendResponseHeaders(200, -1); // Send 200 status for preflight request
             return;
         }
@@ -118,7 +113,6 @@ public class RequestHandler implements HttpHandler {
                 //User role and subject obtained from jwt payload
                 String payloadUserMail = claims.getSubject();
 
-                //TODO: authorization by role!!
                 String payloadUserRole = (String) claims.get("role");
 
 
@@ -133,7 +127,12 @@ public class RequestHandler implements HttpHandler {
                         FlowerActualSpecs flowerActualSpecs = sensorsApi.getFlowerActualSpecs(flowerId);
                         response = toJson(flowerActualSpecs);
                         statusCode = 200;
-                    }else if(method.equals("GET") && path.matches("/api/flowers/all")){
+                    } else if (method.equals("GET") && path.matches("/api/flowerSpec/.*")) {
+                        String flowerName = path.substring(path.lastIndexOf('/') + 1);
+                        FlowerRequiredSpecs flowerRequiredSpecs = flowerApi.getFlowerSpec(flowerName);
+                        response = toJson(flowerRequiredSpecs);
+                        statusCode = 200;
+                    } else if(method.equals("GET") && path.matches("/api/flowers/all")){
                         List<Flower> flowers = flowerApi.getFlowers();
                         response = toJson(flowers);
                         statusCode = 200;
@@ -156,14 +155,22 @@ public class RequestHandler implements HttpHandler {
                         response = String.valueOf(flowerApi.createFlower(flower));
                         statusCode = 201;
                     } else if (method.equals("POST") && path.matches("/api/flowers/listFlower/\\d+")) {
-                        int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
-                        BigDecimal price = fromJson(body, BigDecimal.class);
-                        response = String.valueOf(flowerApi.listFlower(flowerId, price));
-                        statusCode = 200;
+                        if (payloadUserRole.equalsIgnoreCase("grower")) {
+                            int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
+                            BigDecimal price = fromJson(body, BigDecimal.class);
+                            response = String.valueOf(flowerApi.listFlower(flowerId, price));
+                            statusCode = 200;
+                        } else {
+                            throw new BadRoleException("This actions can't be achieved if is not a grower account");
+                        }
                     } else if (method.equals("POST") && path.matches("/api/flowers/sellFlower/\\d+")) {
-                        int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
-                        response = String.valueOf(flowerApi.sellFlower(flowerId, payloadUserMail));
-                        statusCode = 200;
+                        if (payloadUserRole.equalsIgnoreCase("grower")) {
+                            int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
+                            response = String.valueOf(flowerApi.sellFlower(flowerId, payloadUserMail));
+                            statusCode = 200;
+                        } else {
+                            throw new BadRoleException("This actions can't be achieved if is not a grower account");
+                        }
                     } else if (method.equals("PUT") && path.matches("/api/flowers")) {
                         Flower flower = fromJson(body, Flower.class);
                         response = String.valueOf(flowerApi.updateFlower(flower));
@@ -172,21 +179,35 @@ public class RequestHandler implements HttpHandler {
                         int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
                         response = String.valueOf(flowerApi.deleteFlower(flowerId));
                         statusCode = 200;
-                    } else if (method.equals("GET") && path.matches("/api/users/.*")) {
-                        String userEmail = path.substring(path.lastIndexOf('/') + 1);
+                    } else if (method.equals("DELETE") && path.matches("/api/users")) {
+                        response = String.valueOf(userApi.deleteUser(payloadUserMail));
+                        statusCode = 200;
+                    } else if (method.equals("DELETE") && path.matches("/api/users/removeFlowerFromWishList/.*")) {
+                        String flowerName = path.substring(path.lastIndexOf('/') + 1);
+                        response = String.valueOf(userApi.removeFlowerFromWishlist(flowerName, payloadUserMail));
+                        statusCode = 200;
 
-                        if (!userEmail.equals(payloadUserMail)) {
-                            throw new AuthorizationException("Email addresses doesn't match (url with token)");
-                        }
-
-                        User user = userApi.getUserByEmail(userEmail);
+                    } else if (method.equals("GET") && path.matches("/api/users")) {
+                        User user = userApi.getUserByEmail(payloadUserMail);
                         response = toJson(user);
                         statusCode = 200;
                     } else if (method.equals("PUT") && path.matches("/api/users")) {
                         User user = fromJson(body, User.class);
                         response = String.valueOf(userApi.updateUser(user));
                         statusCode = 200;
-                    }else {
+                    } else if (method.equals("POST") && path.matches("/api/users/addToWishList/.*")) {
+                        String flowerName = path.substring(path.lastIndexOf('/') + 1);
+                        response = String.valueOf(userApi.addFlowerOnWishlist(flowerName, payloadUserMail));
+                        statusCode = 200;
+                    } else if (method.equals("GET") && path.matches("/api/users/getUserFavoriteFlowers")) {
+                        List<FlowerFavoriteType> flowerFavoriteTypes = userApi.getUserFavoriteFlowers(payloadUserMail);
+                        response = toJson(flowerFavoriteTypes);
+                        statusCode = 200;
+                    } else if (method.equals("POST") && path.matches("/api/actions/\\d+")) {
+                        int flowerId = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
+                        response = String.valueOf(flowerActionsApi.takeAction(flowerId, body));
+                        statusCode = 200;
+                    } else {
                         response = "Endpoint not found";
                         statusCode = 404;
                     }
@@ -197,7 +218,7 @@ public class RequestHandler implements HttpHandler {
                     response = e.getMessage();
                     statusCode = 401;
                 } catch (Exception e) {
-                    response = "Internal Server Error";
+                    response = String.format("Internal Server Error: %s", e.getMessage());
                     statusCode = 500;
                 }
             } else {

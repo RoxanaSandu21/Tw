@@ -1,16 +1,20 @@
 package utils;
 
+
 import java.security.SecureRandom;
 import java.util.Base64;
 
 public class KeyGenerator {
 
+
     private static volatile String secretKey;
+
+    private static KeyGenerator instance;
 
     private KeyGenerator() {
     }
 
-    public static String getSecretKey () {
+    public String getSecretKey () {
         if (secretKey == null) {
             synchronized (KeyGenerator.class) {
                 if (secretKey == null) {
@@ -22,5 +26,16 @@ public class KeyGenerator {
             }
         }
         return secretKey;
+    }
+
+    public static KeyGenerator getInstance() {
+        if (instance == null) {
+            synchronized (KeyGenerator.class) {
+                if (instance == null) {
+                    instance = new KeyGenerator();
+                }
+            }
+        }
+        return instance;
     }
 }

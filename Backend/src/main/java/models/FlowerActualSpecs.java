@@ -1,38 +1,24 @@
 package models;
 
-import enums.RequiredActionsEnum;
 
-public class FlowerActualSpecs {
-    private int humidityPercent;
-    private int temperatureCelsiusGrades;
+import java.util.List;
+
+public class FlowerActualSpecs extends  FlowerDynamicSpecs{
     private int daysPassedFromPlantedDate;
     private String actionRequired;
 
-    public FlowerActualSpecs(int humidityPercent, int temperatureCelsiusGrades, int daysPassedFromPlantedDate, String actionRequired) {
-        this.humidityPercent = humidityPercent;
-        this.temperatureCelsiusGrades = temperatureCelsiusGrades;
+    private List<String> actionsHistory;
+
+    public FlowerActualSpecs(int humidityPercent, int temperatureCelsiusGrades, int daysPassedFromPlantedDate, String actionRequired, List<String> actionsHistory) {
+        super(humidityPercent, temperatureCelsiusGrades);
         this.daysPassedFromPlantedDate = daysPassedFromPlantedDate;
         this.actionRequired = actionRequired;
+        this.actionsHistory = actionsHistory;
     }
 
     public FlowerActualSpecs() {
     }
 
-    public int getHumidityPercent() {
-        return humidityPercent;
-    }
-
-    public void setHumidityPercent(int humidityPercent) {
-        this.humidityPercent = humidityPercent;
-    }
-
-    public int getTemperatureCelsiusGrades() {
-        return temperatureCelsiusGrades;
-    }
-
-    public void setTemperatureCelsiusGrades(int temperatureCelsiusGrades) {
-        this.temperatureCelsiusGrades = temperatureCelsiusGrades;
-    }
 
     public int getDaysPassedFromPlantedDate() {
         return daysPassedFromPlantedDate;
@@ -48,5 +34,13 @@ public class FlowerActualSpecs {
 
     public void setActionRequired(String actionRequired) {
         this.actionRequired = actionRequired;
+    }
+
+    public List<String> getActionsHistory() {
+        return actionsHistory;
+    }
+
+    public void setActionsHistory(List<String> actionsHistory) {
+        this.actionsHistory = actionsHistory;
     }
 }

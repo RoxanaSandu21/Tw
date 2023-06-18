@@ -3,13 +3,11 @@ package dataprovider;
 import enums.RequiredActionsEnum;
 import models.Flower;
 import models.FlowerActualSpecs;
+import models.FlowerDynamicSpecs;
 import models.FlowerRequiredSpecs;
+import services.ActionsService;
 import services.FlowerSpecService;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -17,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 public class Sensors {
     private final Random sensorValue;
     private final FlowerRequiredSpecs flowerRequiredSpecs;
-
     private final Flower flower;
+
 
     public Sensors(Flower flower) {
         this.sensorValue = new Random();
@@ -27,57 +25,71 @@ public class Sensors {
     }
 
     public FlowerActualSpecs getFlowerActualSpecs () {
-        int minTemp = 0;
-        int maxTemp = 30;
 
-        int minHumid = 20;
-        int maxHumid = 80;
+        FlowerDynamicSpecs flowerDynamicSpecs;
 
-        int temperature = sensorValue.nextInt(maxTemp - minTemp +1) + minTemp;
-        int humidity = sensorValue.nextInt(maxHumid - minHumid + 1) + minHumid;
+        if (SensorsValuesHolder.getInstance().getSensorValuesHolder().containsKey(flower.getId())) {
+            flowerDynamicSpecs = SensorsValuesHolder.getInstance().getSensorValuesHolder().get(flower.getId());
+        } else {
+            int minTemp = 0;
+            int maxTemp = 30;
+
+            int minHumid = 20;
+            int maxHumid = 80;
+
+            int temperature = sensorValue.nextInt(maxTemp - minTemp +1) + minTemp;
+            int humidity = sensorValue.nextInt(maxHumid - minHumid + 1) + minHumid;
+            FlowerDynamicSpecs flowerDynamicSpecsToBeAdded = new FlowerDynamicSpecs();
+            flowerDynamicSpecsToBeAdded.setHumidityPercent(humidity);
+            flowerDynamicSpecsToBeAdded.setTemperatureCelsiusGrades(temperature);
+            SensorsValuesHolder.getInstance().getSensorValuesHolder().put(flower.getId(), flowerDynamicSpecsToBeAdded);
+            flowerDynamicSpecs = flowerDynamicSpecsToBeAdded;
+        }
+
+
+
         int days = calculateDaysNumber(flower.getPlantingDate());
 
-
         FlowerActualSpecs flowerActualSpecs = new FlowerActualSpecs();
-        flowerActualSpecs.setTemperatureCelsiusGrades(temperature);
-        flowerActualSpecs.setHumidityPercent(humidity);
+        flowerActualSpecs.setHumidityPercent(flowerDynamicSpecs.getHumidityPercent());
+        flowerActualSpecs.setTemperatureCelsiusGrades(flowerDynamicSpecs.getTemperatureCelsiusGrades());
         flowerActualSpecs.setDaysPassedFromPlantedDate(days);
+        flowerActualSpecs.setActionsHistory(ActionsService.getActionsOnFlower(flower.getId()));
 
-        //TODO: add more details on action here
         if (days > flowerRequiredSpecs.getRequiredDays()) {
             flowerActualSpecs.setActionRequired(RequiredActionsEnum.requires_harvest.getValue());
             return flowerActualSpecs;
         }
 
 
-        if (temperature != flowerRequiredSpecs.getRequiredTemp() && humidity != flowerRequiredSpecs.getRequiredHumidPercent()) {
+        if (flowerActualSpecs.getTemperatureCelsiusGrades() != flowerRequiredSpecs.getRequiredTemp() || flowerActualSpecs.getHumidityPercent() != flowerRequiredSpecs.getRequiredHumidPercent()) {
 
             int tempSituation;
             int humidSituation;
 
-            tempSituation = Math.abs(temperature - flowerRequiredSpecs.getRequiredTemp());
-            humidSituation = Math.abs(humidity - flowerRequiredSpecs.getRequiredHumidPercent());
+            tempSituation = Math.abs(flowerActualSpecs.getTemperatureCelsiusGrades() - flowerRequiredSpecs.getRequiredTemp());
+            humidSituation = Math.abs(flowerActualSpecs.getHumidityPercent() - flowerRequiredSpecs.getRequiredHumidPercent());
 
             if (tempSituation >= humidSituation) {
-                if (temperature > flowerRequiredSpecs.getRequiredTemp()) {
+                if (flowerActualSpecs.getTemperatureCelsiusGrades() > flowerRequiredSpecs.getRequiredTemp()) {
                     flowerActualSpecs.setActionRequired(String.format(RequiredActionsEnum.requires_less_light.getValue() + "(normal value:%s)",
                             flowerRequiredSpecs.getRequiredTemp()));
                     return flowerActualSpecs;
                 }
 
-                if (temperature < flowerRequiredSpecs.getRequiredTemp()) {
+                if (flowerActualSpecs.getTemperatureCelsiusGrades() < flowerRequiredSpecs.getRequiredTemp()) {
                     flowerActualSpecs.setActionRequired(String.format(RequiredActionsEnum.requires_more_light.getValue() + "(normal value:%s)",
                             flowerRequiredSpecs.getRequiredTemp()));
                     return flowerActualSpecs;
                 }
             } else {
-                if (humidity > flowerRequiredSpecs.getRequiredHumidPercent()) {
+                if (flowerActualSpecs.getHumidityPercent() > flowerRequiredSpecs.getRequiredHumidPercent()) {
                     flowerActualSpecs.setActionRequired(String.format(RequiredActionsEnum.requires_less_humidity.getValue() + "(normal value:%s)",
                             flowerRequiredSpecs.getRequiredHumidPercent()));
                     return flowerActualSpecs;
                 }
 
-                if (humidity < flowerRequiredSpecs.getRequiredHumidPercent()) {
+                if (flowerActualSpecs.getHumidityPercent() < flowerRequiredSpecs.getRequiredHumidPercent()) {
                     flowerActualSpecs.setActionRequired(String.format(RequiredActionsEnum.requires_more_humidity.getValue() + "(normal value:%s)",
                             flowerRequiredSpecs.getRequiredHumidPercent()));
                     return flowerActualSpecs;
