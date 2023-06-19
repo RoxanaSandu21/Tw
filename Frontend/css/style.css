@@ -1077,6 +1077,7 @@ input[type=name], select {
 }
 
 #popupEdit{
+    overflow: auto;
     text-align: center;
     position: fixed;
     top: 50%;
@@ -1204,12 +1205,21 @@ input[type=name], select {
     }
 }
 
+@media (max-width: 480px) {
+    #popupEdit{
+        top: 50%;
+        bottom: auto;
+        left: 50%;
+        right: auto;
+        transform: translate(-50%, -50%);
+      }
+  }
+
 @media (max-width:450px){
 
     html{
         font-size: 50%;
     }
-
 }
 
 .content-title {
